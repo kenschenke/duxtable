@@ -1,0 +1,200 @@
+.duxtable-table {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    width: 100%;
+}
+
+.duxtable-thead {
+    font-weight: bold;
+}
+
+.duxtable-scroll {
+    overflow-y: scroll;
+}
+
+.duxtable-tbody {
+
+}
+
+.duxtable-text-body {
+    color: #212529;
+}
+
+.duxtable-text-muted {
+    color: #6c757d;
+}
+
+.duxtable-text-left {
+    text-align: left;
+}
+
+.duxtable-text-right {
+    text-align: right;
+}
+
+.duxtable-text-center {
+    text-align: center;
+}
+
+.duxtable-invisible {
+    visibility: hidden;
+}
+
+.duxtable-tr {
+    display: flex;
+}
+
+.duxtable-tr:hover {
+    background-color: rgba(0, 0, 0, 0.07);
+}
+
+.duxtable-tr-selectable {
+    cursor: pointer;
+}
+
+.duxtable-td {
+    padding: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.duxtable-tr-odd:not(:hover) {
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+.duxtable-tr-even:not(:hover) {
+    background-color: rgba(0, 0, 0, 0.0);
+}
+
+.duxtable-tr-selected, .duxtable-tr-selected:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+}
+
+.duxtable-th {
+    position: relative;
+    text-align: center;
+    overflow: visible;
+    border: 1px solid #ddd;
+    background-color: #efefef;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.duxtable-resizer {
+    display: inline-block;
+    position: absolute;
+    width: 36px;
+    top: 0;
+    bottom: 0;
+    right: -18px;
+    cursor: col-resize;
+    z-index: 10;
+}
+
+.duxtable-sort-icon {
+    margin-left: .5rem;
+}
+
+.duxtable-search {
+    display: block;
+    width: 100%;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    overflow: visible;
+    margin: 0 0 .5rem 0;
+    padding: .25rem .5rem;
+    font-size: .875rem;
+    line-height: 1.5;
+    border-radius: .2rem;
+}
+
+.duxtable-search::placeholder {
+    color: #6c757d;
+    opacity: 1;
+}
+
+.duxtable-pagination {
+    margin-top: .5rem;
+    margin-left: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.duxtable-flex-col-grow {
+    flex-basis: 0;
+    flex-grow: 1;
+    max-width: 100%;
+}
+
+.duxtable-flex-col-8 {
+    flex: 0 0 66.666667%;
+    max-width: 66.666667%;
+}
+
+.duxtable-flex-col-grow, .duxtable-flex-col-8 {
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.duxtable-flex-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+.duxtable-pagination-button {
+    padding: .25rem .5rem;
+    font-size: .875rem;
+    font-family: Arial, serif;
+    line-height: 1.5;
+    border-radius: .2rem;
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    border: 1px solid #6c757d;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    text-transform: none;
+    overflow: visible;
+    margin: 0;
+    color: #fff;
+    background-color: #6c757d;
+}
+
+.duxtable-pagination-button.disabled, .duxtable-pagination-button:disabled {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.duxtable-pagination-button:not(:disabled):not(.disabled) {
+    cursor: pointer;
+}
+
+.duxtable-pagination-button:hover {
+    color: #fff;
+    background-color: #5a6268;
+    border-color: #545b62;
+    text-decoration: none;
+}
+
+.duxtable-pagination-button:focus {
+    text-decoration: none;
+}
+
