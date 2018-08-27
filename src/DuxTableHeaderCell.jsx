@@ -11,7 +11,21 @@ export class DuxTableHeaderCell extends React.Component {
 
         this.resizer = null;
         this.resizing = false;
+        this.dragX = -1;  // x coordinate of last column resize mouse movement
     }
+
+    columnClicked = event => {
+        event.preventDefault();
+
+        let sortAscending = this.props.sortAscending;
+        if (this.props.columnIndex === this.props.sortColumn) {
+            sortAscending = !sortAscending;
+        } else {
+            sortAscending = true;
+        }
+
+        this.props.sortChanged(sortAscending, this.props.columnIndex);
+    };
 
     componentDidMount() {
         window.addEventListener('mousedown', this.onMouseDown, false);
@@ -34,29 +48,39 @@ export class DuxTableHeaderCell extends React.Component {
             const resizerRect = this.resizer.getBoundingClientRect();
             if (isInsideRect(x, y, resizerRect.left, resizerRect.top, resizerRect.width, resizerRect.height)) {
                 this.resizing = true;
-                this.props.mouseDown(event, this.props.columnIndex);
+                this.dragX = event.screenX;
             }
         }
     };
 
     onMouseMove = event => {
         if (this.resizing) {
-            this.props.mouseMove(event, this.props.columnIndex);
+            const xDelta = event.screenX - this.dragX;
+
+            let widths = [...this.props.columnWidths];
+
+            widths[this.props.columnIndex] = this.props.columnWidths[this.props.columnIndex] + xDelta;
+            widths[this.props.columnIndex + 1] = this.props.columnWidths[this.props.columnIndex+1] - xDelta;
+
+            this.props.resizeColumns(widths);
+            this.dragX = event.screenX;
         }
     };
 
     onMouseUp = event => {
         if (this.resizing) {
             this.resizing = false;
-            this.props.mouseUp(event, this.props.columnIndex);
+            this.dragX = -1;
         }
     };
 
     render() {
         const sortable = this.props.column.hasOwnProperty('sortable') ? this.props.column.sortable : true;
         return (
-            <div key={this.props.column.title} className="duxtable-td duxtable-th" style={{width: this.props.columnWidths[this.props.columnIndex], cursor: sortable ? 'pointer' : 'default'}}>
-                <div onClick={e => this.props.columnClicked(e,this.props.columnIndex)}>
+            <div className="duxtable-td duxtable-th"
+                 style={{width: this.props.columnWidths[this.props.columnIndex], cursor: sortable ? 'pointer' : 'default'}}
+            >
+                <div onClick={e => {if (sortable) this.columnClicked(e)}}>
                     {this.props.column.title}{this.props.sortColumn === this.props.columnIndex && <FontAwesomeIcon icon={this.props.sortAscending ? faSortUp : faSortDown} className="duxtable-sort-icon"/>}
                 </div>
                 {!this.props.isLastColumn &&
@@ -71,13 +95,11 @@ export class DuxTableHeaderCell extends React.Component {
 
 DuxTableHeaderCell.propTypes = {
     column: PropTypes.object.isRequired,
-    columnClicked: PropTypes.func.isRequired,
     columnIndex: PropTypes.number.isRequired,
     columnWidths: PropTypes.array.isRequired,
     isLastColumn: PropTypes.bool.isRequired,
-    mouseDown: PropTypes.func.isRequired,
-    mouseMove: PropTypes.func.isRequired,
-    mouseUp: PropTypes.func.isRequired,
+    resizeColumns: PropTypes.func.isRequired,
     sortAscending: PropTypes.bool.isRequired,
+    sortChanged: PropTypes.func.isRequired,
     sortColumn: PropTypes.number.isRequired
 };

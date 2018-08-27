@@ -9,13 +9,13 @@ export class DuxTableSearch extends React.Component {
     }
 
     componentDidMount() {
-        if (this.props.searchFocus && this.input !== null) {
+        if (this.props.tableProps.searchFocus && this.input !== null) {
             this.input.focus();
         }
     }
 
     render() {
-        if (!this.props.showSearch) {
+        if (!this.props.tableProps.showSearch) {
             return null;
         }
 
@@ -34,7 +34,6 @@ export class DuxTableSearch extends React.Component {
 }
 
 DuxTableSearch.propTypes = {
-    searchFocus: PropTypes.bool.isRequired,
-    searchChanged: PropTypes.func.isRequired,
-    showSearch: PropTypes.bool.isRequired
+    tableProps: PropTypes.object.isRequired,
+    searchChanged: PropTypes.func.isRequired
 };

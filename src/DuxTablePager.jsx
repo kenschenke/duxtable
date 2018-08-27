@@ -5,16 +5,22 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import faForward from '@fortawesome/fontawesome-free-solid/faForward';
 import faBackward from '@fortawesome/fontawesome-free-solid/faBackward';
 
-export const DuxTablePagination = props => {
-    if (!props.show) {
+export const DuxTablePager = props => {
+    if (!props.tableProps.pagination) {
         return null;
     }
 
     return (
-        <div className={'duxtable-pagination' + (props.hidden ? ' duxtable-invisible' : '')}>
+        <div className={'duxtable-pagination' + (props.tableProps.fetchingData ? ' duxtable-invisible' : '')}>
             <div className="duxtable-flex-row">
                 <div style={{flexBasis: 0, flexGrow: 1, maxWidth: '100%'}}>
-                    <button type="button" className="duxtable-pagination-button" disabled={props.currentPage < 2} onClick={props.prevClicked}><FontAwesomeIcon icon={faBackward} style={{marginTop:-3}}/> Previous</button>
+                    <button type="button"
+                            className="duxtable-pagination-button"
+                            disabled={props.currentPage < 2}
+                            onClick={() => props.currentPageChanged(props.currentPage - 1)}
+                    >
+                        <FontAwesomeIcon icon={faBackward} style={{marginTop:-3}}/> Previous
+                    </button>
                 </div>
                 <div className="duxtable-flex-col-8 duxtable-text-center">
                     Page {props.currentPage} of {props.totalPages}
@@ -26,20 +32,24 @@ export const DuxTablePagination = props => {
                     }
                 </div>
                 <div className="duxtable-flex-col-grow" style={{textAlign:'right'}}>
-                    <button type="button" className="duxtable-pagination-button" disabled={props.currentPage >= props.totalPages} onClick={props.nextClicked}>Next <FontAwesomeIcon icon={faForward} style={{marginTop:-3}}/></button>
+                    <button type="button"
+                            className="duxtable-pagination-button"
+                            disabled={props.currentPage >= props.totalPages}
+                            onClick={() => props.currentPageChanged(props.currentPage + 1)}
+                    >
+                        Next <FontAwesomeIcon icon={faForward} style={{marginTop:-3}}/>
+                    </button>
                 </div>
             </div>
         </div>
     );
 };
 
-DuxTablePagination.propTypes = {
+DuxTablePager.propTypes = {
     currentPage: PropTypes.number.isRequired,
-    hidden: PropTypes.bool.isRequired,
-    nextClicked: PropTypes.func.isRequired,
+    currentPageChanged: PropTypes.func.isRequired,
     numAllRows: PropTypes.number.isRequired,
     numFilteredRows: PropTypes.number.isRequired,
-    prevClicked: PropTypes.func.isRequired,
-    show: PropTypes.bool.isRequired,
-    totalPages: PropTypes.number.isRequired
+    totalPages: PropTypes.number.isRequired,
+    tableProps: PropTypes.object.isRequired,
 };

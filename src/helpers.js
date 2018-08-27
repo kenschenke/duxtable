@@ -1,3 +1,30 @@
+export const calculateColumnWidths = (columns, tableW) => {
+    let widths = [];
+    while (widths.length < columns.length) {
+        widths.push(0);
+    }
+    let i, remainingCols = 0, remainingWidth = tableW;
+    // Set the width for columns with a specified width
+    for (i = 0; i < columns.length; i++) {
+        if (columns[i].hasOwnProperty('width')) {
+            widths[i] = columns[i].width;
+            remainingWidth -= columns[i].width;
+        } else {
+            remainingCols++;
+        }
+    }
+    // For columns without a specified width, divide up the remaining space evenly
+    if (remainingCols) {
+        for (i = 0; i < columns.length; i++) {
+            if (!widths[i]) {
+                widths[i] = remainingWidth / remainingCols;
+            }
+        }
+    }
+
+    return widths;
+};
+
 export const colValue = (col, item) => {
     let value = '';
     if (typeof col.field === 'string') {
@@ -37,197 +64,7 @@ export const formatNumber = (value, precision=2, commas=true) => {
     return x1 + x2;
 };
 
-export const getRenderData = (tableData, props, tableW, widths, key, selectedRows) => {
-    let rows = [];
-
-    if (props.fetchingData) {
-        rows.push({
-            Key: `${key}_fetching`,
-            Cls: 'duxtable-text-body duxtable-tr' + (props.striped ? ' duxtable-tr-even' : ''),
-            Item: {},
-            Interactive: false,
-            Cols: [
-                {
-                    Key: `${key}_fetching_row`,
-                    Cls: 'duxtable-td duxtable-text-muted duxtable-text-center',
-                    Value: props.fetchingMsg,
-                    Style: { width: tableW, fontStyle: 'italic' }
-                }
-            ]
-        });
-    } else {
-        rows = tableData.map((item,rowIndex) => {
-            const selected = selectedRows.indexOf(item[props.rowKey]) !== -1;
-            const cols = props.columns.map((col,colIndex) => {
-                let value = undefined;
-                if (selected && props.selectedRenderCallback !== undefined) {
-                    value = props.selectedRenderCallback(item, colIndex);
-                }
-                if (value === undefined) {
-                    if (col.hasOwnProperty('render')) {
-                        value = col.render(item);
-                    } else {
-                        value = colValue(col, item);
-                    }
-                }
-                let colCls = 'duxtable-td ';
-                if (col.hasOwnProperty('align')) {
-                    switch (col.align) {
-                        case 'right':
-                            colCls += 'duxtable-text-right';
-                            break;
-
-                        case 'center':
-                            colCls += 'duxtable-text-center';
-                            break;
-
-                        case 'left':
-                        default:
-                            colCls += 'duxtable-text-left';
-                            break;
-                    }
-                } else {
-                    colCls += 'duxtable-text-left';
-                }
-                return {
-                    Key: `${rowIndex}_${col.field}`,
-                    Cls: colCls,
-                    Value: value,
-                    Style: {width: widths[colIndex]}
-                };
-            });
-
-            let selectedRowLevelRender = undefined;
-            if (selected && props.selectedRenderCallback !== undefined) {
-                selectedRowLevelRender = props.selectedRenderCallback(item, -1);
-            }
-
-            let cls = 'duxtable-tr ';
-            if (selected) {
-                cls += 'duxtable-tr-selected';
-            } else {
-                cls += props.striped && rowIndex % 2 ? 'duxtable-tr-odd' : 'duxtable-tr-even';
-            }
-            if (props.selectionMode !== 'none') {
-                cls += ' duxtable-tr-selectable';
-            }
-
-            return {
-                Key: item[props.rowKey],
-                Item: item,
-                Cls: cls,
-                Interactive: true,
-                SelectedRowLevelRender: selectedRowLevelRender,
-                Cols: cols
-            };
-        });
-    }
-
-    if (!rows.length && props.emptyMsg.length) {
-        rows.push({
-            Key: `${key}_empty`,
-            Cls: 'duxtable-text-body duxtable-tr' + (props.striped ? ' duxtable-tr-even' : ''),
-            Item: {},
-            Interactive: false,
-            Cols: [
-                {
-                    Key: `${key}_empty_row`,
-                    Cls: 'duxtable-td duxtable-text-muted duxtable-text-center',
-                    Value: props.emptyMsg,
-                    Style: { width: tableW, fontStyle: 'italic' }
-                }
-            ]
-        });
-    }
-
-    let anyFooter = false;
-    if (!props.fetchingData) {
-        let footers = [];
-        for (let col = 0; col < props.columns.length; col++) {
-            let content = undefined;
-            if (props.columns[col].hasOwnProperty('footer')) {
-                if (typeof props.columns[col].footer === 'function') {
-                    content = props.columns[col].footer(props.filteredRows);
-                } else {
-                    content = props.columns[col].footer;
-                }
-            }
-
-            let colCls = 'duxtable-td ';
-            if (props.columns[col].hasOwnProperty('align')) {
-                switch (props.columns[col].align) {
-                    case 'right':
-                        colCls += 'duxtable-text-right';
-                        break;
-
-                    case 'center':
-                        colCls += 'duxtable-text-center';
-                        break;
-
-                    case 'left':
-                    default:
-                        colCls += 'duxtable-text-left';
-                        break;
-                }
-            } else {
-                colCls += 'duxtable-text-left';
-            }
-
-            footers.push({
-                Key: `footer_${props.columns[col].field}`,
-                Cls: colCls,
-                Value: content !== undefined ? content : '',
-                Style: {width: widths[col]}
-            });
-            if (content !== undefined) {
-                anyFooter = true;
-            }
-        }
-        if (anyFooter) {
-            let footerCls = 'duxtable-text-body duxtable-tr';
-            if (props.striped) {
-                footerCls += (rows.length % 2) ? ' duxtable-tr-odd' : ' duxtable-tr-even';
-            }
-            rows.push({
-                Key: `${key}_footer_row`,
-                Item: {},
-                Cls: footerCls,
-                Interactive: false,
-                SelectedRowLevelRender: undefined,
-                Cols: footers
-            });
-        }
-    }
-
-    let extra = 1 + ((rows.length % 2) ? 0 : 1);
-    while (props.pagination && rows.length < props.pageSize + (anyFooter ? 1 : 0)) {
-        const cols = props.columns.map((col,index) => {
-            return {
-                Key: `${key}_extra_${index}`,
-                Cls: 'duxtable-td',
-                Value: String.fromCharCode(0xa0),  // non-break space
-                Style: {width: widths[index]}
-            }
-        });
-        let cls = 'duxtable-text-body duxtable-tr';
-        if (props.striped) {
-            cls += (extra % 2) ? ' duxtable-tr-odd' : ' duxtable-tr-even';
-        }
-        rows.push({
-            Key: `${key}_extra_row_${extra}`,
-            Item: {},
-            Cls: cls,
-            Interactive: false,
-            SelectedRowLevelRender: undefined,
-            Cols: cols
-        });
-        extra++;
-    }
-
-    return rows;
-};
-
-export const getTableRows = (props, filter, currentPage, sortColumn, sortAscending) => {
+export const getTableRows = (filter, currentPage, sortColumn, sortAscending, props) => {
     const begin = props.pagination ? (currentPage - 1) * props.pageSize : 0;
     const end = props.pagination ? begin + props.pageSize : props.data.length;
     const searchStr = filter.trim().toUpperCase();
