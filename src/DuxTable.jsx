@@ -6,7 +6,7 @@ import { DuxTablePager } from './DuxTablePager';
 import { DuxTableSearch } from './DuxTableSearch';
 import { DuxTableHeaders } from './DuxTableHeaders';
 import { DuxTableBody } from './DuxTableBody';
-import { calculateColumnWidths, getTableRows } from './helpers';
+import { calculateColumnWidths, getElementPosition, getTableRows } from './helpers';
 
 class DuxTableUi extends React.Component {
     constructor(props) {
@@ -18,9 +18,23 @@ class DuxTableUi extends React.Component {
     }
 
     componentDidMount() {
+        if (this._table !== null) {
+            const pos = getElementPosition(this._table);
+            this.props.setStoreData(this.props.name, {
+                tableH: this._table.clientHeight,
+                tableT: pos.top
+            });
+        }
+
         this.updateColumnWidths();
 
         window.addEventListener('resize', this.updateColumnWidths, false);
+    }
+
+    componentDidUpdate() {
+        if (this._table !== null && this.props.tableH !== this._table.clientHeight) {
+            this.props.setStoreData(this.props.name, {tableH: this._table.clientHeight});
+        }
     }
 
     updateColumnWidths = () => {
@@ -83,12 +97,14 @@ DuxTableUi.propTypes = {
 
     // Provided by Redux map
     currentPage: PropTypes.number.isRequired,
+    tableH: PropTypes.number.isRequired,
     tableW: PropTypes.number.isRequired,
     filter: PropTypes.string.isRequired,
     sortColumnFromStore: PropTypes.number.isRequired,
     sortAscendingFromStore: PropTypes.bool.isRequired,
     init: PropTypes.func.isRequired,
-    setStoreData: PropTypes.func.isRequired
+    setStoreData: PropTypes.func.isRequired,
+    selectedRows: PropTypes.array.isRequired
 };
 
 DuxTableUi.defaultProps = {

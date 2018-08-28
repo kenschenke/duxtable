@@ -64,6 +64,41 @@ export const formatNumber = (value, precision=2, commas=true) => {
     return x1 + x2;
 };
 
+/**
+ * Gets the offset position of the element.
+ *
+ * @param elem
+ * @returns {{top: number, left: number}}
+ */
+const getElementOffset = elem => {
+    if (elem === null || elem === undefined) {
+        return {top: 0, left: 0};
+    }
+
+    const rect = elem.getBoundingClientRect();
+    const win = elem.ownerDocument.defaultView;
+    return {
+        top: rect.top + win.pageYOffset,
+        left: rect.left - win.pageXOffset
+    };
+};
+
+/**
+ * Gets the relative position of the element.
+ *
+ * @param elem
+ * @returns {{top: number, left: number}}
+ */
+export const getElementPosition = elem => {
+    const elemOffset = getElementOffset(elem);
+    const parentOffset = getElementOffset(elem.offsetParent);
+
+    return {
+        top: elemOffset.top,
+        left: elemOffset.left
+    };
+};
+
 export const getTableRows = (filter, currentPage, sortColumn, sortAscending, props) => {
     const begin = props.pagination ? (currentPage - 1) * props.pageSize : 0;
     const end = props.pagination ? begin + props.pageSize : props.data.length;

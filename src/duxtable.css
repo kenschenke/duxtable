@@ -198,3 +198,9 @@
     text-decoration: none;
 }
 
+.duxtable-resize-hint {
+    position: fixed;
+    border-left: 2px dashed #999;
+    width: 1px;
+    z-index: 1;
+}

@@ -12,8 +12,12 @@ class DuxTableHeaderCellUi extends React.Component {
         super(props);
 
         this.resizer = null;
-        this.resizing = false;
         this.dragX = -1;  // x coordinate of last column resize mouse movement
+
+        this.state = {
+            resizeX: 0,
+            resizing: false
+        };
     }
 
     columnClicked = event => {
@@ -36,6 +40,42 @@ class DuxTableHeaderCellUi extends React.Component {
     }
 
     onMouseDown = event => {
+        const pos = this.posFromMouseEvent(event);
+        if (this.resizer) {
+            const resizerRect = this.resizer.getBoundingClientRect();
+            if (isInsideRect(pos.x, pos.y, resizerRect.left, resizerRect.top, resizerRect.width, resizerRect.height)) {
+                this.dragX = event.screenX;
+                this.setState({resizing: true, resizeX: pos.x});
+                this.props.setResizingColumns(this.props.tableProps.name, true);
+            }
+        }
+    };
+
+    onMouseMove = event => {
+        if (this.state.resizing) {
+            const pos = this.posFromMouseEvent(event);
+            this.setState({resizeX: pos.x});
+        }
+    };
+
+    onMouseUp = event => {
+        if (this.state.resizing) {
+            const xDelta = event.screenX - this.dragX;
+
+            let widths = [...this.props.columnWidths];
+
+            widths[this.props.columnIndex] = this.props.columnWidths[this.props.columnIndex] + xDelta;
+            widths[this.props.columnIndex + 1] = this.props.columnWidths[this.props.columnIndex+1] - xDelta;
+
+            this.props.setColumnWidths(this.props.tableProps.name, widths);
+
+            this.setState({resizing: false});
+            this.props.setResizingColumns(this.props.tableProps.name, false);
+            this.dragX = -1;
+        }
+    };
+
+    posFromMouseEvent = event => {
         let x, y;
 
         if (event.pageX || event.pageY) {
@@ -46,49 +86,29 @@ class DuxTableHeaderCellUi extends React.Component {
             y = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
         }
 
-        if (this.resizer) {
-            const resizerRect = this.resizer.getBoundingClientRect();
-            if (isInsideRect(x, y, resizerRect.left, resizerRect.top, resizerRect.width, resizerRect.height)) {
-                this.resizing = true;
-                this.dragX = event.screenX;
-            }
-        }
-    };
-
-    onMouseMove = event => {
-        if (this.resizing) {
-            const xDelta = event.screenX - this.dragX;
-
-            let widths = [...this.props.columnWidths];
-
-            widths[this.props.columnIndex] = this.props.columnWidths[this.props.columnIndex] + xDelta;
-            widths[this.props.columnIndex + 1] = this.props.columnWidths[this.props.columnIndex+1] - xDelta;
-
-            this.props.setColumnWidths(this.props.tableProps.name, widths);
-            this.dragX = event.screenX;
-        }
-    };
-
-    onMouseUp = event => {
-        if (this.resizing) {
-            this.resizing = false;
-            this.dragX = -1;
-        }
+        return {x: x, y: y};
     };
 
     render() {
         const sortable = this.props.column.hasOwnProperty('sortable') ? this.props.column.sortable : true;
+        let cursor = sortable ? 'pointer' : 'default';
+        if (this.props.resizingColumns) {
+            cursor = 'col-resize';
+        }
         return (
             <div className="duxtable-td duxtable-th"
-                 style={{width: this.props.columnWidths[this.props.columnIndex], cursor: sortable ? 'pointer' : 'default'}}
+                 style={{width: this.props.columnWidths[this.props.columnIndex], cursor: cursor}}
             >
                 <div onClick={e => {if (sortable) this.columnClicked(e)}}>
                     {this.props.column.title}{this.props.sortColumn === this.props.columnIndex && <FontAwesomeIcon icon={this.props.sortAscending ? faSortUp : faSortDown} className="duxtable-sort-icon"/>}
                 </div>
-                {!this.props.isLastColumn &&
+                { !this.props.isLastColumn &&
                 <div ref={r => this.resizer = r} className="duxtable-resizer">
-
                 </div>
+                }
+                { this.state.resizing &&
+                    <div className="duxtable-resize-hint" style={{left: this.state.resizeX, top: this.props.tableT, height: this.props.tableH}}>
+                    </div>
                 }
             </div>
         );
@@ -107,7 +127,11 @@ DuxTableHeaderCellUi.propTypes = {
     sortAscending: PropTypes.bool.isRequired,
     sortColumn: PropTypes.number.isRequired,
     setColumnWidths: PropTypes.func.isRequired,
+    setResizingColumns: PropTypes.func.isRequired,
     setSort: PropTypes.func.isRequired,
+    tableH: PropTypes.number.isRequired,
+    tableT: PropTypes.number.isRequired,
+    resizingColumns: PropTypes.bool.isRequired
 };
 
 export const DuxTableHeaderCell = connect(mapDuxTableHeaderCellProps, mapDuxTableHeaderCellDispatch)(DuxTableHeaderCellUi);
