@@ -38,7 +38,7 @@ class DuxTableUi extends React.Component {
     }
 
     updateColumnWidths = () => {
-        if (this._table === null || this._table.clientWidth === this.props.tableW) {
+        if (this._table === null) {
             return;
         }
 
@@ -60,11 +60,13 @@ class DuxTableUi extends React.Component {
                     <DuxTableHeaders tableProps={this.props}/>
                     <DuxTableBody tableRows={tableRowData.rows} tableProps={this.props}/>
                 </div>
+                { this.props.pagination &&
                 <DuxTablePager numAllRows={tableRowData.numAllRows}
                                numFilteredRows={tableRowData.numFilteredRows}
                                totalPages={tableRowData.totalPages}
                                tableProps={this.props}
                 />
+                }
             </div>
         );
     }
