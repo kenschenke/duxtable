@@ -54,6 +54,7 @@ export class ScrollNoFooter extends React.Component {
             <div>
                 <input type="checkbox" className="mb-3" onClick={() => this.setState({fetching:!this.state.fetching})}/> Fetching Data
                 <DuxTable
+                    name="scrollnofooter"
                     columns={cols}
                     data={this.addrs}
                     emptyMsg="No addresses found"
