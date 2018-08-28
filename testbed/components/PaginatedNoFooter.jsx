@@ -52,6 +52,7 @@ export class PaginatedNoFooter extends React.Component {
             <div>
                 <input type="checkbox" className="mb-3" onClick={() => this.setState({fetching:!this.state.fetching})}/> Fetching Data
                 <DuxTable
+                    name="paginatednofooter"
                     columns={cols}
                     data={this.addrs}
                     emptyMsg="No addresses found"

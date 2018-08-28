@@ -1,28 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { mapDuxTableProps, mapDuxTableDispatch } from './maps/DuxTable.map';
+import { connect } from 'react-redux';
 import { DuxTablePager } from './DuxTablePager';
 import { DuxTableSearch } from './DuxTableSearch';
 import { DuxTableHeaders } from './DuxTableHeaders';
 import { DuxTableBody } from './DuxTableBody';
 import { calculateColumnWidths, getTableRows } from './helpers';
 
-export class DuxTable extends React.Component {
+class DuxTableUi extends React.Component {
     constructor(props) {
         super(props);
 
         this._table = null;  // the <table> element
 
-        // Unique key
-        this.key = 'DuxTable_' + Math.random().toString(36).substr(2, 9);
-
-        this.state = {
-            tableW: 0,    // the table width the last time columns were calculated
-            widths: [],   // column widths
-            currentPage: 1,
-            sortAscending: props.sortAscending,  // the property is the default, user can change it
-            sortColumn: props.sortColumn,  // the property is the default, user can change it
-            filter: ''         // This is the contents of the search <input>
-        };
+        this.props.init(props.name, props.sortAscending, props.sortColumn);
     }
 
     componentDidMount() {
@@ -31,51 +23,30 @@ export class DuxTable extends React.Component {
         window.addEventListener('resize', this.updateColumnWidths, false);
     }
 
-    sortChanged = (sortAscending, sortColumn) => {
-        this.setState({
-            sortColumn: sortColumn,
-            sortAscending: sortAscending,
-            currentPage: 1
-        });
-    };
-
     updateColumnWidths = () => {
-        if (this._table === null || this._table.clientWidth === this.state.tableW) {
+        if (this._table === null || this._table.clientWidth === this.props.tableW) {
             return;
         }
 
         const tableW = this._table.clientWidth;
-        this.setState({
+        this.props.setStoreData(this.props.name, {
             tableW: tableW,
-            widths: calculateColumnWidths(this.props.columns, tableW)
+            columnWidths: calculateColumnWidths(this.props.columns, tableW)
         });
     };
 
     render() {
-        const tableRowData = getTableRows(this.state.filter, this.state.currentPage,
-            this.state.sortColumn, this.state.sortAscending, this.props);
+        const tableRowData = getTableRows(this.props.filter, this.props.currentPage,
+            this.props.sortColumnFromStore, this.props.sortAscendingFromStore, this.props);
 
         return (
             <div>
-                <DuxTableSearch tableProps={this.props} searchChanged={filter => this.setState({filter: filter})}/>
+                <DuxTableSearch tableProps={this.props}/>
                 <div ref={t => this._table=t} className="duxtable-table">
-                    <DuxTableHeaders tableProps={this.props}
-                                     columnsResized={widths => this.setState({widths: widths})}
-                                     columnWidths={this.state.widths}
-                                     sortAscending={this.state.sortAscending}
-                                     sortColumn={this.state.sortColumn}
-                                     sortChanged={this.sortChanged}
-                    />
-                    <DuxTableBody columnWidths={this.state.widths}
-                                  tableKey={this.key}
-                                  tableRows={tableRowData.rows}
-                                  tableProps={this.props}
-                                  tableW={this.state.tableW}
-                    />
+                    <DuxTableHeaders tableProps={this.props}/>
+                    <DuxTableBody tableRows={tableRowData.rows} tableProps={this.props}/>
                 </div>
-                <DuxTablePager currentPage={this.state.currentPage}
-                               currentPageChanged={page => this.setState({currentPage:page})}
-                               numAllRows={tableRowData.numAllRows}
+                <DuxTablePager numAllRows={tableRowData.numAllRows}
                                numFilteredRows={tableRowData.numFilteredRows}
                                totalPages={tableRowData.totalPages}
                                tableProps={this.props}
@@ -85,7 +56,9 @@ export class DuxTable extends React.Component {
     }
 }
 
-DuxTable.propTypes = {
+DuxTableUi.propTypes = {
+    // Provided by component parent
+    name: PropTypes.string.isRequired,
     bodyHeight: PropTypes.number.isRequired,
     columns: PropTypes.array.isRequired,
     data: PropTypes.array.isRequired,
@@ -106,10 +79,19 @@ DuxTable.propTypes = {
     sortAscending: PropTypes.bool.isRequired,
     sortCallback: PropTypes.func,
     sortColumn: PropTypes.number.isRequired,
-    striped: PropTypes.bool.isRequired
+    striped: PropTypes.bool.isRequired,
+
+    // Provided by Redux map
+    currentPage: PropTypes.number.isRequired,
+    tableW: PropTypes.number.isRequired,
+    filter: PropTypes.string.isRequired,
+    sortColumnFromStore: PropTypes.number.isRequired,
+    sortAscendingFromStore: PropTypes.bool.isRequired,
+    init: PropTypes.func.isRequired,
+    setStoreData: PropTypes.func.isRequired
 };
 
-DuxTable.defaultProps = {
+DuxTableUi.defaultProps = {
     bodyHeight: 0,
     emptyMsg: '',
     fetchingData: false,
@@ -123,3 +105,5 @@ DuxTable.defaultProps = {
     sortColumn: -1,
     striped: false
 };
+
+export const DuxTable = connect(mapDuxTableProps, mapDuxTableDispatch)(DuxTableUi);

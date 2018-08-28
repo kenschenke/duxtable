@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { mapDuxTablePagerProps, mapDuxTablePagerDispatch } from './maps/DuxTablePager.map';
+import { connect } from 'react-redux';
 import { formatNumber } from './helpers';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import faForward from '@fortawesome/fontawesome-free-solid/faForward';
 import faBackward from '@fortawesome/fontawesome-free-solid/faBackward';
 
-export const DuxTablePager = props => {
+const DuxTablePagerUi = props => {
     if (!props.tableProps.pagination) {
         return null;
     }
@@ -17,7 +19,7 @@ export const DuxTablePager = props => {
                     <button type="button"
                             className="duxtable-pagination-button"
                             disabled={props.currentPage < 2}
-                            onClick={() => props.currentPageChanged(props.currentPage - 1)}
+                            onClick={() => props.setCurrentPage(props.tableProps.name, props.currentPage - 1)}
                     >
                         <FontAwesomeIcon icon={faBackward} style={{marginTop:-3}}/> Previous
                     </button>
@@ -35,7 +37,7 @@ export const DuxTablePager = props => {
                     <button type="button"
                             className="duxtable-pagination-button"
                             disabled={props.currentPage >= props.totalPages}
-                            onClick={() => props.currentPageChanged(props.currentPage + 1)}
+                            onClick={() => props.setCurrentPage(props.tableProps.name, props.currentPage + 1)}
                     >
                         Next <FontAwesomeIcon icon={faForward} style={{marginTop:-3}}/>
                     </button>
@@ -45,11 +47,16 @@ export const DuxTablePager = props => {
     );
 };
 
-DuxTablePager.propTypes = {
-    currentPage: PropTypes.number.isRequired,
-    currentPageChanged: PropTypes.func.isRequired,
+DuxTablePagerUi.propTypes = {
+    // Provided by component parent
     numAllRows: PropTypes.number.isRequired,
     numFilteredRows: PropTypes.number.isRequired,
     totalPages: PropTypes.number.isRequired,
     tableProps: PropTypes.object.isRequired,
+
+    // Provided by Redux map
+    currentPage: PropTypes.number.isRequired,
+    setCurrentPage: PropTypes.func.isRequired
 };
+
+export const DuxTablePager = connect(mapDuxTablePagerProps, mapDuxTablePagerDispatch)(DuxTablePagerUi);

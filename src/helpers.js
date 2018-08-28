@@ -125,6 +125,15 @@ export const getTableRows = (filter, currentPage, sortColumn, sortAscending, pro
     };
 };
 
+export const getTableStoreValue = (state, table, property, defaultValue) => {
+    if (!state.duxtable.hasOwnProperty(table) ||
+        !state.duxtable[table].hasOwnProperty(property)) {
+        return defaultValue;
+    }
+
+    return state.duxtable[table][property];
+};
+
 export const isInsideRect = (x, y, left, top, width, height) => {
     return (x >= left && y >= top && x <= left+width && y <= top+height);
 };

@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { mapDuxTableSearchProps, mapDuxTableSearchDispatch } from './maps/DuxTableSearch.map';
+import { connect } from 'react-redux';
 
-export class DuxTableSearch extends React.Component {
+class DuxTableSearchUi extends React.Component {
     constructor(props) {
         super(props);
 
@@ -24,7 +26,7 @@ export class DuxTableSearch extends React.Component {
                 <div className="duxtable-flex-col-grow">
                     <input className="duxtable-search"
                            placeholder="Search"
-                           onChange={e => this.props.searchChanged(e.target.value)}
+                           onChange={e => this.props.searchChanged(this.props.tableProps.name, e.target.value)}
                            ref={i => this.input=i}
                     />
                 </div>
@@ -33,7 +35,12 @@ export class DuxTableSearch extends React.Component {
     }
 }
 
-DuxTableSearch.propTypes = {
+DuxTableSearchUi.propTypes = {
+    // Provided by component parent
     tableProps: PropTypes.object.isRequired,
+
+    // Provided by Redux map
     searchChanged: PropTypes.func.isRequired
 };
+
+export const DuxTableSearch = connect(mapDuxTableSearchProps, mapDuxTableSearchDispatch)(DuxTableSearchUi);

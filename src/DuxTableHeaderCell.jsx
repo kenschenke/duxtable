@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { mapDuxTableHeaderCellProps, mapDuxTableHeaderCellDispatch } from './maps/DuxTableHeaderCell.map';
+import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import faSortUp from '@fortawesome/fontawesome-free-solid/faSortUp';
 import faSortDown from '@fortawesome/fontawesome-free-solid/faSortDown';
 import { isInsideRect } from './helpers';
 
-export class DuxTableHeaderCell extends React.Component {
+class DuxTableHeaderCellUi extends React.Component {
     constructor(props) {
         super(props);
 
@@ -24,7 +26,7 @@ export class DuxTableHeaderCell extends React.Component {
             sortAscending = true;
         }
 
-        this.props.sortChanged(sortAscending, this.props.columnIndex);
+        this.props.setSort(this.props.tableProps.name, sortAscending, this.props.columnIndex);
     };
 
     componentDidMount() {
@@ -62,7 +64,7 @@ export class DuxTableHeaderCell extends React.Component {
             widths[this.props.columnIndex] = this.props.columnWidths[this.props.columnIndex] + xDelta;
             widths[this.props.columnIndex + 1] = this.props.columnWidths[this.props.columnIndex+1] - xDelta;
 
-            this.props.resizeColumns(widths);
+            this.props.setColumnWidths(this.props.tableProps.name, widths);
             this.dragX = event.screenX;
         }
     };
@@ -93,13 +95,19 @@ export class DuxTableHeaderCell extends React.Component {
     }
 }
 
-DuxTableHeaderCell.propTypes = {
+DuxTableHeaderCellUi.propTypes = {
+    // Provided by component parent
+    tableProps: PropTypes.object.isRequired,
     column: PropTypes.object.isRequired,
     columnIndex: PropTypes.number.isRequired,
-    columnWidths: PropTypes.array.isRequired,
     isLastColumn: PropTypes.bool.isRequired,
-    resizeColumns: PropTypes.func.isRequired,
+
+    // Provided by Redux map
+    columnWidths: PropTypes.array.isRequired,
     sortAscending: PropTypes.bool.isRequired,
-    sortChanged: PropTypes.func.isRequired,
-    sortColumn: PropTypes.number.isRequired
+    sortColumn: PropTypes.number.isRequired,
+    setColumnWidths: PropTypes.func.isRequired,
+    setSort: PropTypes.func.isRequired,
 };
+
+export const DuxTableHeaderCell = connect(mapDuxTableHeaderCellProps, mapDuxTableHeaderCellDispatch)(DuxTableHeaderCellUi);

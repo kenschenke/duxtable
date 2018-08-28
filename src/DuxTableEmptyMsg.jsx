@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { mapDuxTableEmptyMsgProps } from './maps/DuxTableEmptyMsg.map';
+import { connect } from 'react-redux';
 
-export const DuxTableEmptyMsg = props => {
-    if (!props.show || !props.tableProps.emptyMsg.length) {
+const DuxTableEmptyMsgUi = props => {
+    if (!props.tableProps.emptyMsg.length) {
         return null;
     }
 
@@ -17,8 +19,12 @@ export const DuxTableEmptyMsg = props => {
     );
 };
 
-DuxTableEmptyMsg.propTypes = {
+DuxTableEmptyMsgUi.propTypes = {
+    // From component parent
     tableProps: PropTypes.object.isRequired,
-    show: PropTypes.bool.isRequired,
+
+    // From Redux map
     tableW: PropTypes.number.isRequired
 };
+
+export const DuxTableEmptyMsg = connect(mapDuxTableEmptyMsgProps)(DuxTableEmptyMsgUi);

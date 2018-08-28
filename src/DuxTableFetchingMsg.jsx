@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { mapDuxTableFetchingMsgProps } from './maps/DuxTableFetchingMsg.map';
+import { connect } from 'react-redux';
 
-export const DuxTableFetchingMsg = props => {
+const DuxTableFetchingMsgUi = props => {
     if (!props.tableProps.fetchingData) {
         return null;
     }
@@ -17,7 +19,12 @@ export const DuxTableFetchingMsg = props => {
     );
 };
 
-DuxTableFetchingMsg.propTypes = {
+DuxTableFetchingMsgUi.propTypes = {
+    // From component parent
     tableProps: PropTypes.object.isRequired,
+
+    // From Redux map
     tableW: PropTypes.number.isRequired
 };
+
+export const DuxTableFetchingMsg = connect(mapDuxTableFetchingMsgProps)(DuxTableFetchingMsgUi);

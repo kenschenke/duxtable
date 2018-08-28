@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { mapDuxTableExtraRowsProps } from './maps/DuxTableExtraRows.map';
+import { connect } from 'react-redux';
 
-export const DuxTableExtraRows = props => {
+const DuxTableExtraRowsUi = props => {
     if (!props.tableProps.pagination) {
         return null;
     }
@@ -9,28 +11,31 @@ export const DuxTableExtraRows = props => {
     let extra = 1 + ((props.rowsOnPage % 2) ? 0 : 1);
     let rows = [];
     while (props.rowsOnPage + rows.length < props.tableProps.pageSize + (props.hasFooter ? 1 : 0)) {
-        const cols = props.colWidths.map((width,index) => {
-            return (
-                <div key={`extra_${index}`} className="duxtable-td" style={{width: width}}>
-                    {String.fromCharCode(0xa0) /* non-break space*/}
-                </div>
-            );
-        });
-
         let cls = 'duxtable-text-body duxtable-tr';
         if (props.tableProps.striped) {
             cls += (extra % 2) ? ' duxtable-tr-odd' : ' duxtable-tr-even';
         }
-        rows.push(<div key={`extra_row_${extra}`} className={cls}>{cols}</div>);
+        rows.push(
+            <div key={`extra_row_${extra}`} className={cls}>
+                <div className="duxtable-td" style={{width: props.tableW}}>
+                    {String.fromCharCode(0xa0) /* non-break space*/}
+                </div>
+            </div>
+        );
         extra++;
     }
 
     return rows;
 };
 
-DuxTableExtraRows.propTypes = {
+DuxTableExtraRowsUi.propTypes = {
+    // From component parent
     tableProps: PropTypes.object.isRequired,
-    colWidths: PropTypes.array.isRequired,
     hasFooter: PropTypes.bool.isRequired,
-    rowsOnPage: PropTypes.number.isRequired
+    rowsOnPage: PropTypes.number.isRequired,
+
+    // From Redux map
+    tableW: PropTypes.number.isRequired
 };
+
+export const DuxTableExtraRows = connect(mapDuxTableExtraRowsProps)(DuxTableExtraRowsUi);

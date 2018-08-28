@@ -7,12 +7,8 @@ export const DuxTableHeaders = props => {
         return <DuxTableHeaderCell key={col.title}
                                    column={col}
                                    columnIndex={index}
-                                   columnWidths={props.columnWidths}
+                                   tableProps={props.tableProps}
                                    isLastColumn={index + 1 === props.tableProps.columns.length}
-                                   sortAscending={props.sortAscending}
-                                   sortColumn={props.sortColumn}
-                                   resizeColumns={props.columnsResized}
-                                   sortChanged={props.sortChanged}
         />;
     });
 
@@ -25,9 +21,4 @@ export const DuxTableHeaders = props => {
 
 DuxTableHeaders.propTypes = {
     tableProps: PropTypes.object.isRequired,
-    columnsResized: PropTypes.func.isRequired,
-    columnWidths: PropTypes.array.isRequired,
-    sortAscending: PropTypes.bool.isRequired,
-    sortChanged: PropTypes.func.isRequired,
-    sortColumn: PropTypes.number.isRequired
 };

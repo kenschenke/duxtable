@@ -5,78 +5,42 @@ import { DuxTableFetchingMsg } from './DuxTableFetchingMsg';
 import { DuxTableEmptyMsg } from './DuxTableEmptyMsg';
 import { DuxTableExtraRows } from './DuxTableExtraRows';
 
-export class DuxTableBody extends React.Component {
-    constructor(props) {
-        super(props);
+export const DuxTableBody = props => {
+    const rows = props.tableRows.map((item, rowIndex) => {
+        return <DuxTableRow key={`${props.tableProps.name}_row_${rowIndex}`}
+                            tableProps={props.tableProps}
+                            item={item}
+                            rowIndex={rowIndex}
+        />;
+    });
 
-        this.state = {
-            selectedRows: []
-        }
+    // The number of rows in a paginated table.  For fixed-header scrollable tables,
+    // this value is ignored.  It is only used by the component to fill out empty rows.
+    let numRows = rows.length;
+
+    // If the "fetching" or "empty" message is being shown, that counts as a row
+    // for the purposes of filling out empty rows in paginated tables.
+    if (props.tableProps.fetchingData) {
+        numRows++;
+    } else if (!props.tableRows.length && props.tableProps.emptyMsg.length) {
+        numRows++;
     }
 
-    rowClicked = key => {
-        let toBe = [];
-
-        switch (this.props.tableProps.selectionMode) {
-            case 'single':
-                toBe = [key];
-                if (this.props.tableProps.rowSelectionChanged) {
-                    this.props.tableProps.rowSelectionChanged(key);
-                }
-                break;
-
-            case 'multi':
-                if (this.state.selectedRows.indexOf(key) === -1) {
-                    // The key isn't in the array.  Add it.
-                    toBe = [...this.state.selectedRows, key];
-                } else {
-                    // The key is already in the array.  Remove it.
-                    toBe = this.state.selectedRows.filter(k => k !== key);
-                }
-                if (this.props.tableProps.rowSelectionChanged) {
-                    this.props.tableProps.rowSelectionChanged(toBe);
-                }
-                break;
-        }
-
-        this.setState({selectedRows: toBe});
-    };
-
-    render() {
-        const rows = this.props.tableRows.map((item, rowIndex) => {
-            return <DuxTableRow key={`${this.props.tableKey}_row_${rowIndex}`}
-                                columnWidths={this.props.columnWidths}
-                                tableProps={this.props.tableProps}
-                                isRowSelected={this.state.selectedRows.indexOf(item[this.props.tableProps.rowKey]) !== -1}
-                                item={item}
-                                rowClicked={this.rowClicked}
-                                rowIndex={rowIndex}
-                                tableW={this.props.tableW}
-            />;
-        });
-
-        return (
-            <div className={'duxtable-tbody' + (this.props.tableProps.bodyHeight ? ' duxtable-scroll' : '')} style={{height:this.props.tableProps.bodyHeight?this.props.tableProps.bodyHeight:'auto'}}>
-                <DuxTableFetchingMsg tableProps={this.props.tableProps} tableW={this.props.tableW}/>
-                <DuxTableEmptyMsg tableProps={this.props.tableProps}
-                                  show={!this.props.tableProps.fetchingData && !this.props.tableRows.length}
-                                  tableW={this.props.tableW}
-                />
-                {rows}
-                <DuxTableExtraRows colWidths={this.props.columnWidths}
-                                   hasFooter={false}
-                                   tableProps={this.props.tableProps}
-                                   rowsOnPage={rows.length}
-                />
-            </div>
-        );
-    }
-}
+    return (
+        <div className={'duxtable-tbody' + (props.tableProps.bodyHeight ? ' duxtable-scroll' : '')}
+             style={{height: props.tableProps.bodyHeight ? props.tableProps.bodyHeight : 'auto'}}
+        >
+            <DuxTableFetchingMsg tableProps={props.tableProps}/>
+            { !props.tableProps.fetchingData && !props.tableRows.length &&
+            <DuxTableEmptyMsg tableProps={props.tableProps}/>
+            }
+            {rows}
+            <DuxTableExtraRows hasFooter={false} tableProps={props.tableProps} rowsOnPage={numRows}/>
+        </div>
+    );
+};
 
 DuxTableBody.propTypes = {
     tableProps: PropTypes.object.isRequired,
-    columnWidths: PropTypes.array.isRequired,
-    tableKey: PropTypes.string.isRequired,
     tableRows: PropTypes.array.isRequired,
-    tableW: PropTypes.number.isRequired
 };
