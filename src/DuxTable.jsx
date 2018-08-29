@@ -77,6 +77,7 @@ DuxTableUi.propTypes = {
     name: PropTypes.string.isRequired,
     bodyHeight: PropTypes.number.isRequired,
     columns: PropTypes.array.isRequired,
+    groupHeaders: PropTypes.array.isRequired,
     data: PropTypes.array.isRequired,
     emptyMsg: PropTypes.string.isRequired,
     fetchingData: PropTypes.bool.isRequired,
@@ -120,7 +121,8 @@ DuxTableUi.defaultProps = {
     showSearch: true,
     sortAscending: true,
     sortColumn: -1,
-    striped: false
+    striped: false,
+    groupHeaders: []
 };
 
 export const DuxTable = connect(mapDuxTableProps, mapDuxTableDispatch)(DuxTableUi);

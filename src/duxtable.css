@@ -85,6 +85,11 @@
     user-select: none;
 }
 
+.duxtable-th-group {
+    border: 1px solid #bbb;
+    background-color: #d7d7d7;
+}
+
 .duxtable-resizer {
     display: inline-block;
     position: absolute;
