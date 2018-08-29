@@ -124,10 +124,7 @@ export const getTableRows = (filter, currentPage, sortColumn, sortAscending, pro
         });
     }
     const totalPages = props.pagination ? Math.ceil(filtered.length / props.pageSize) : 1;
-    if (props.sortCallback !== undefined) {
-        filtered.sort((a,b) => props.sortCallback(a,b,sortAscending));
-    }
-    else if (sortColumn !== -1) {
+    if (sortColumn !== -1) {
         if (props.columns[sortColumn].sortCallback !== undefined) {
             filtered.sort((a,b) => props.columns[sortColumn].sortCallback(a,b,sortAscending));
         } else {

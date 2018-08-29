@@ -93,7 +93,6 @@ DuxTableUi.propTypes = {
     selectionMode: PropTypes.string.isRequired,
     showSearch: PropTypes.bool.isRequired,
     sortAscending: PropTypes.bool.isRequired,
-    sortCallback: PropTypes.func,
     sortColumn: PropTypes.number.isRequired,
     striped: PropTypes.bool.isRequired,
 
