@@ -9,7 +9,9 @@ export class PaginatedNoFooter extends React.Component {
         this.addrs = makeAddresses();
 
         this.state = {
-            fetching: false
+            fetching: false,
+            showSearch: true,
+            striped: true
         };
     }
 
@@ -50,7 +52,11 @@ export class PaginatedNoFooter extends React.Component {
         ];
         return (
             <div>
-                <input type="checkbox" className="mb-3" onClick={() => this.setState({fetching:!this.state.fetching})}/> Fetching Data
+                <div className="mb-3">
+                    <input type="checkbox" onClick={() => this.setState({fetching:!this.state.fetching})}/> Fetching Data
+                    <input type="checkbox" className="ml-3" defaultChecked={true} onClick={() => this.setState({showSearch:!this.state.showSearch})}/> Show Search
+                    <input type="checkbox" className="ml-3" defaultChecked={true} onClick={() => this.setState({striped:!this.state.striped})}/> Striped
+                </div>
                 <DuxTable
                     name="paginatednofooter"
                     columns={cols}
@@ -62,8 +68,9 @@ export class PaginatedNoFooter extends React.Component {
                     selectionMode="single"
                     sortColumn={3}
                     sortAscending={false}
-                    striped={true}
+                    striped={this.state.striped}
                     selectedRenderCallback={this.selectedRender}
+                    showSearch={this.state.showSearch}
                 />
             </div>
         );

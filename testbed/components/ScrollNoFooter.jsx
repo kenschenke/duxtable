@@ -10,7 +10,9 @@ export class ScrollNoFooter extends React.Component {
         this.addrs = makeAddresses().slice(0, Math.floor(Math.random()*400)+100);
 
         this.state = {
-            fetching: false
+            fetching: false,
+            showSearch: true,
+            striped: true
         };
     }
 
@@ -52,7 +54,11 @@ export class ScrollNoFooter extends React.Component {
 
         return (
             <div>
-                <input type="checkbox" className="mb-3" onClick={() => this.setState({fetching:!this.state.fetching})}/> Fetching Data
+                <div className="mb-3">
+                    <input type="checkbox" onClick={() => this.setState({fetching:!this.state.fetching})}/> Fetching Data
+                    <input type="checkbox" className="ml-3" defaultChecked={true} onClick={() => this.setState({showSearch:!this.state.showSearch})}/> Show Search
+                    <input type="checkbox" className="ml-3" defaultChecked={true} onClick={() => this.setState({striped:!this.state.striped})}/> Striped
+                </div>
                 <DuxTable
                     name="scrollnofooter"
                     columns={cols}
@@ -64,7 +70,8 @@ export class ScrollNoFooter extends React.Component {
                     selectionMode="single"
                     sortColumn={3}
                     sortAscending={false}
-                    striped={true}
+                    striped={this.state.striped}
+                    showSearch={this.state.showSearch}
                     pagination={false}
                     bodyHeight={300}
                     selectedRenderCallback={this.selectedRender}
