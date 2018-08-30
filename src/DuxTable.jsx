@@ -54,7 +54,7 @@ class DuxTableUi extends React.Component {
             this.props.sortColumnFromStore, this.props.sortAscendingFromStore, this.props);
 
         return (
-            <div>
+            <div className="duxtable-container">
                 <DuxTableSearch tableProps={this.props}/>
                 <div ref={t => this._table=t} className="duxtable-table">
                     <DuxTableHeaders tableProps={this.props}/>
