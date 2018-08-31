@@ -40,10 +40,12 @@ class DuxTableHeaderCellUi extends React.Component {
     }
 
     onMouseDown = event => {
-        const pos = this.posFromMouseEvent(event);
         if (this.resizer) {
+            const pos = this.posFromMouseEvent(event);
             const resizerRect = this.resizer.getBoundingClientRect();
-            if (isInsideRect(pos.x, pos.y, resizerRect.left, resizerRect.top, resizerRect.width, resizerRect.height)) {
+            const resizerLeft = resizerRect.left + document.body.scrollLeft + document.documentElement.scrollLeft;
+            const resizerTop = resizerRect.top + document.body.scrollTop + document.documentElement.scrollTop;
+            if (isInsideRect(pos.x, pos.y, resizerLeft, resizerTop, resizerRect.width, resizerRect.height)) {
                 this.dragX = event.screenX;
                 this.setState({resizing: true, resizeX: pos.x});
                 this.props.setResizingColumns(this.props.tableProps.name, true);
@@ -95,6 +97,11 @@ class DuxTableHeaderCellUi extends React.Component {
         if (this.props.resizingColumns) {
             cursor = 'col-resize';
         }
+        const resizingHintStyle = {
+            left: this.state.resizeX - document.body.scrollLeft - document.documentElement.scrollLeft,
+            top: this.props.tableT - document.body.scrollTop - document.documentElement.scrollTop,
+            height: this.props.tableH
+        };
         return (
             <div className="duxtable-td duxtable-th"
                  style={{width: this.props.columnWidths[this.props.columnIndex], cursor: cursor}}
@@ -107,7 +114,7 @@ class DuxTableHeaderCellUi extends React.Component {
                 </div>
                 }
                 { this.state.resizing &&
-                    <div className="duxtable-resize-hint" style={{left: this.state.resizeX, top: this.props.tableT, height: this.props.tableH}}>
+                    <div className="duxtable-resize-hint" style={resizingHintStyle}>
                     </div>
                 }
             </div>
