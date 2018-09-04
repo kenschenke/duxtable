@@ -148,12 +148,40 @@ export const getTableRows = (filter, currentPage, sortColumn, sortAscending, pro
         }
     }
 
+    // Footer row
+    let hasFooter = false;
+    let footers = [];
+    if (!props.fetchingData) {
+        for (let col = 0; col < props.columns.length; col++) {
+            let content = undefined;
+            if (props.columns[col].hasOwnProperty('footer')) {
+                if (typeof props.columns[col].footer === 'function') {
+                    content = props.columns[col].footer(filtered);
+                } else {
+                    content = props.columns[col].footer;
+                }
+            }
+
+            if (content !== undefined) {
+                hasFooter = true;
+            } else {
+                content = '';
+            }
+            if (typeof content === 'string' && !content.length) {
+                content = String.fromCharCode(0xa0);  // non-breaking space
+            }
+            footers.push(content);
+        }
+    }
+
     return {
         rows: filtered.slice(begin, end),  // rows to be displayed in the table (current page only if paginated)
         totalPages: totalPages,
         numAllRows: props.data.length,     // total rows in unfiltered data set
         numFilteredRows: filtered.length,  // total rows in filtered data set
-        filteredRows: filtered             // rows in filtered data set (including those not visible due to pagination)
+        filteredRows: filtered,            // rows in filtered data set (including those not visible due to pagination)
+        footers: footers,
+        hasFooter: hasFooter
     };
 };
 

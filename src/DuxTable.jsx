@@ -58,7 +58,7 @@ class DuxTableUi extends React.Component {
                 <DuxTableSearch tableProps={this.props}/>
                 <div ref={t => this._table=t} className="duxtable-table">
                     <DuxTableHeaders tableProps={this.props}/>
-                    <DuxTableBody tableRows={tableRowData.rows} tableProps={this.props}/>
+                    <DuxTableBody tableRowData={tableRowData} tableProps={this.props}/>
                 </div>
                 { this.props.pagination &&
                 <DuxTablePager numAllRows={tableRowData.numAllRows}

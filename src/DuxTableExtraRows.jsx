@@ -10,7 +10,7 @@ const DuxTableExtraRowsUi = props => {
 
     let extra = 1 + ((props.rowsOnPage % 2) ? 0 : 1);
     let rows = [];
-    while (props.rowsOnPage + rows.length < props.tableProps.pageSize + (props.hasFooter ? 1 : 0)) {
+    while (props.rowsOnPage + rows.length < props.tableProps.pageSize) {
         let cls = 'duxtable-text-body duxtable-tr';
         if (props.tableProps.striped) {
             cls += (extra % 2) ? ' duxtable-tr-odd' : ' duxtable-tr-even';

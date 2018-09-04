@@ -4,9 +4,10 @@ import { DuxTableRow } from './DuxTableRow';
 import { DuxTableFetchingMsg } from './DuxTableFetchingMsg';
 import { DuxTableEmptyMsg } from './DuxTableEmptyMsg';
 import { DuxTableExtraRows } from './DuxTableExtraRows';
+import { DuxTableFooter } from './DuxTableFooter';
 
 export const DuxTableBody = props => {
-    const rows = props.tableRows.map((item, rowIndex) => {
+    const rows = props.tableRowData.rows.map((item, rowIndex) => {
         return <DuxTableRow key={`${props.tableProps.name}_row_${rowIndex}`}
                             tableProps={props.tableProps}
                             item={item}
@@ -22,7 +23,7 @@ export const DuxTableBody = props => {
     // for the purposes of filling out empty rows in paginated tables.
     if (props.tableProps.fetchingData) {
         numRows++;
-    } else if (!props.tableRows.length && props.tableProps.emptyMsg.length) {
+    } else if (!props.tableRowData.rows.length && props.tableProps.emptyMsg.length) {
         numRows++;
     }
 
@@ -31,16 +32,19 @@ export const DuxTableBody = props => {
              style={{height: props.tableProps.bodyHeight ? props.tableProps.bodyHeight : 'auto'}}
         >
             <DuxTableFetchingMsg tableProps={props.tableProps}/>
-            { !props.tableProps.fetchingData && !props.tableRows.length &&
+            { !props.tableProps.fetchingData && !props.tableRowData.rows.length &&
             <DuxTableEmptyMsg tableProps={props.tableProps}/>
             }
             {rows}
-            <DuxTableExtraRows hasFooter={false} tableProps={props.tableProps} rowsOnPage={numRows}/>
+            <DuxTableExtraRows hasFooter={props.tableRowData.hasFooter} tableProps={props.tableProps} rowsOnPage={numRows}/>
+            { props.tableRowData.hasFooter &&
+                <DuxTableFooter tableProps={props.tableProps} footers={props.tableRowData.footers}/>
+            }
         </div>
     );
 };
 
 DuxTableBody.propTypes = {
     tableProps: PropTypes.object.isRequired,
-    tableRows: PropTypes.array.isRequired,
+    tableRowData: PropTypes.object.isRequired
 };
