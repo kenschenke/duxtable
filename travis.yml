@@ -1,0 +1,11 @@
+deploy:
+  provider: pages
+  fqdn: www.duxtable.com
+  language: node_js
+  script: npm run website-dist
+  local-dir: website/dist
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  keep-history: false
+  on:
+    branch: master

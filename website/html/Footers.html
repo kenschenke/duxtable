@@ -1,0 +1,21 @@
+<h2>Footers</h2>
+
+<code>&lt;DuxTable&gt;</code> supports a table footer row.  For paginated tables, the footer row is shown on every
+page.  For non-paginated tables, the footer row is rendered as the last row.  Footers are specified by column in the
+<code>columns</code> array in the footer property.  For example:
+
+<pre>
+    const cols = [
+        {
+            field: 'Field1',
+            ...  // not shown
+            footer: 'Totals'
+        }
+    ];
+</pre>
+
+The <code>footer</code> property can contain a string, React component, or a function.  If a function is given, the
+array of all filtered items (even those not visible on the current page) is passed to the function.  It can return a
+string or a React component.  See below for an example.
+
+<h3>Example</h3>

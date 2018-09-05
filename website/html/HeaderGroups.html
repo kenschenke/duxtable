@@ -1,0 +1,35 @@
+<h2>Header Groups</h2>
+
+<p>
+    <code>&lt;DuxTable&gt;</code> supports header groups.  Multiple headers can be visually grouped to help emphasize
+    column groupings.  Groups are specified using the <code>groupHeaders</code> property as an array of objects.  Each
+    object has the following properties.
+</p>
+
+<table>
+    <thead>
+    <tr>
+        <th>Property</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>title</td>
+        <td>The title of the group header</td>
+    </tr>
+    <tr>
+        <td>startCol</td>
+        <td>The starting column (column numbers start at 0)</td>
+    </tr>
+    <tr>
+        <td>endCol (optional)</td>
+        <td>
+            The ending column (column numbers start at 0).  If not specified, this group ends with the last
+            column of the table.
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<h3>Example</h3>

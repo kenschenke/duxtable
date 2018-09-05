@@ -1,0 +1,36 @@
+<h2>Paginated Tables</h2>
+
+<p>
+    <code>&lt;DuxTable&gt;</code> comes with built-in support for pagination.  The entire set of rows is provided in
+    the <code>data</code> property and DuxTable splits it into manageable pages for the user.  There are a few
+    properties which impact pagination behavior.
+</p>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Property</th>
+        <th>Default Value</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>pagination</td>
+        <td>true</td>
+        <td>If true, rows are paginated</td>
+    </tr>
+    <tr>
+        <td>pageSize</td>
+        <td>10</td>
+        <td>This is how many rows are shown per page</td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="alert alert-secondary">
+    If the last page does not contain enough rows to fill the page, empty rows are shown so the table has a uniform
+    height.  This keeps the pagination controls from jumping up and down as the user moves between pages.
+</div>
+
+<h3>Example</h3>

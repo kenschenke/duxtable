@@ -1,0 +1,42 @@
+<h2>Row Sorting</h2>
+
+<p>
+    <code>&lt;DuxTable&gt;</code> allows users to sort columns using JavaScript less-than and greater-than operators or
+    a custom sort compare callback.  The <code>sortColumn</code> property specifies the column (starting at 0) to
+    initially sort the table.  The default is -1 (no sorting).  The <code>sortAscending</code> property is true if the
+    initial sort order is ascending.  The default is true.  If a column should not be sortable, the <code>sortable</code>
+    property in the columns array can be set to false.  The default is true.
+</p>
+
+<p>
+    The <code>sortCallback</code> property for a column is a function that is passed two row items and a parameter that
+    is true if ascending order and false for descending order.  It should return 1 if the first item is greater than
+    the second item in ascending order, -1 if the first item is less than the second item in ascending order, and 0 if
+    the two items are identical in sort order.  Here is an example
+</p>
+
+<pre>
+    const cols = [
+        {
+            field: 'value',
+            sortCallBack: (item1, item2, ascending) => {
+                if (item1.value > item2.value) {
+                    return ascending ? 1 : -1;
+                } else if (item1.value < item2.value) {
+                    return ascending ? -1 : 1;
+                } else {
+                    return 0;
+                }
+            }
+        }
+    ];
+</pre>
+
+<h3>Example</h3>
+
+<div class="alert alert-info">
+    A quick note about the example, below.  For the date column, a sort callback function really did not need to be
+    used.  The JavaScript comparison operators know how to handle the Date object and DuxTable's default sort handling
+    would have worked just fine, had the value property been specified for the column.  The column could have specified
+    the render and value properties without the sortCallback.
+</div>

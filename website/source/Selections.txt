@@ -1,0 +1,86 @@
+import React from 'react';
+import {connect} from 'react-redux';
+import {DuxTable} from 'duxtable';
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import {agate} from 'react-syntax-highlighter/styles/hljs';
+
+const mapProps = state => {
+    return {
+        singleState: state.duxtable.hasOwnProperty('singleselect') ?
+            JSON.stringify(state.duxtable.singleselect, null, 3) : '{}',
+        multiState: state.duxtable.hasOwnProperty('multiselect') ?
+            JSON.stringify(state.duxtable.multiselect, null, 3) : '{}'
+    };
+};
+
+class SelectionsUi extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.states = [
+            {label:'Alabama', value:'AL'},
+            {label:'Alaska', value:'AK'},
+            {label:'Arizona', value:'AZ'},
+            {label:'Arkansas', value:'AR'},
+            ... // snip
+        ];
+    }
+
+    render() {
+        const cols = [
+            {
+                field: 'label',
+                title: 'State'
+            }
+        ];
+
+        return (
+            <div className="container">
+                <div className="row">
+                    <div className="col">
+                        <h4>Select Your Favorite State</h4>
+                        <div className="example lightmode">
+                            <DuxTable name="singleselect"
+                                      data={this.states}
+                                      pagination={false}
+                                      bodyHeight={300}
+                                      selectionMode="single"
+                                      rowKey="value"
+                                      columns={cols}
+                            />
+                        </div>
+                    </div>
+                    <div className="col">
+                        <h4>Redux State</h4>
+                        <SyntaxHighlighter language="JavaScript" style={agate}>
+                            {this.props.singleState}
+                        </SyntaxHighlighter>
+                    </div>
+                </div>
+                <div className="row mt-4">
+                    <div className="col">
+                        <h4>Select States You Have Visited</h4>
+                        <div className="example lightmode">
+                            <DuxTable name="multiselect"
+                                      data={this.states}
+                                      pagination={false}
+                                      bodyHeight={300}
+                                      selectionMode="multi"
+                                      rowKey="value"
+                                      columns={cols}
+                            />
+                        </div>
+                    </div>
+                    <div className="col">
+                        <h4>Redux State</h4>
+                        <SyntaxHighlighter language="JavaScript" style={agate}>
+                            {this.props.multiState}
+                        </SyntaxHighlighter>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+}
+
+export const Selections = connect(mapProps)(SelectionsUi);

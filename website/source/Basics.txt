@@ -1,0 +1,41 @@
+import React from 'react';
+import { DuxTable } from 'duxtable';
+
+export class Basics extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.addrs = makeAddresses();  // generate a few thousand random records
+        this.state = {
+            darkMode: false
+        };
+    }
+
+    render() {
+        const cols = [
+            {
+                title: 'Name',
+                field: 'Name'
+            },
+            {
+                title: 'Address',
+                field: 'Addr'
+            },
+            {
+                title: 'City, State',
+                field: 'CitySt',
+                width: 200
+            }
+        ];
+
+        return (
+            <div>
+                <input className="mr-2 mb-3" type="checkbox" onChange={e => this.setState({darkMode: !this.state.darkMode})}/>
+                Dark Mode
+                <div className={'example ' + (this.state.darkMode ? 'darkmode' : 'lightmode')}>
+                    <DuxTable name="basics" columns={cols} data={this.addrs} rowKey="Id" striped={true}/>
+                </div>
+            </div>
+        );
+    }
+}

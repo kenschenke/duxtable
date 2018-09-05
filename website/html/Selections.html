@@ -1,0 +1,33 @@
+<h2>Single and Multi Selections</h2>
+
+<p>
+    <code>&lt;DuxTable&gt;</code> supports single and multi-row selections through the <code>selectionMode</code>
+    property. The possible values are <code>"none"</code> (the default), <code>"single"</code>, or
+    <code>"multi"</code>.
+</p>
+
+<p>
+    The selected row or rows are available in the Redux state for the table in the <code>selectedRows</code> property.
+    This is an array of the values from the selected row or rows.  The value property is specified with the
+    <code>rowKey</code> property to DuxTable.  For example, if the table had a list of United States, the data array
+    could look like this:
+</p>
+
+<pre>
+    const states = [
+        {label: 'Alaska', value: 'AK'},
+        {label: 'Arkansas', value: 'AR'},
+        ...
+    ];
+
+    const cols = [
+        {field: 'label', title: 'State'},
+        ...
+    ];
+</pre>
+
+The DuxTable would look like this:
+
+<pre>
+    &lt;DuxTable columns={cols} rowKey="value" .../&gt;
+</pre>

@@ -1,0 +1,50 @@
+<h2>Getting Started</h2>
+
+<p>
+    If you're the ready, fire, aim type (aren't all programmers?), you should find everything you need on this page
+    and the page on Tables to start using DuxTable.
+</p>
+
+<h4>Installation</h4>
+
+<pre>
+    npm install duxtable
+</pre>
+
+<p>
+    You also need to link to the <code>duxtable.css</code> file in the <code>node_modules/duxtable/website/dist/</code>
+    directory.
+</p>
+
+<pre>
+    &lt;link rel="stylesheet" href="duxtable.css"/&gt;
+</pre>
+
+<div class="alert alert-warning">
+    You might be tempted to use the duxtable.css file in your project with webpack and an import statement.
+    This will work as long as you don't need to override any of the CSS in the file.
+</div>
+
+<h4>Redux Store</h4>
+
+<p>
+    DuxTable stores table state in the Redux store. It requires the root <code>duxtable</code> object in the store.
+    A reducer is supplied to manage this.
+</p>
+
+<pre>
+    import {DuxTableReducer} from 'duxtable';
+
+    const appReducer = combineReducers({
+        ...  // other reducers
+        duxtable: DuxTableReducer
+    });
+</pre>
+
+<h4>Browser Requirements</h4>
+
+<p>
+    DuxTable requires a browser with support for CSS FlexBox.  It has been tested on the modern evergreen
+    browsers (Chrome and Firefox) as well as Internet Explorer 11.  It definitely won't work on
+    Internet Explorer 10 or earlier.
+</p>
