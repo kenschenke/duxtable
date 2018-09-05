@@ -1,0 +1,91 @@
+<h2>Customizing Appearance</h2>
+
+<p>
+    The appearance of <code>&lt;DuxTable&gt;</code> is controlled entirely using CSS.  Every component uses a CSS
+    class that can be overridden.  See the <em>DuxTable Basics</em> topic for a quick example of how easily appearance
+    can be changed.
+</p>
+
+<div class="alert alert-warning">
+    If you are using webpack, it might be tempting to simply <code>import</code> the duxtable.css file.  This is
+    perfectly fine but will not allow you to override the CSS.  This is because the CSS is applied by React during
+    component creation.  See the <em>Getting Started</em> topic for more information on using the
+    <code>&lt;link&gt;</code> element to reference the CSS in a way that it can be overridden.
+</div>
+
+<p>
+    Below is every CSS class used by DuxTable.  The classes are named in a way that will be familiar to anyone that
+    has used the traditional HTML <code>&lt;table&gt;</code> element.  However, DuxTable is built using CSS FlexBox,
+    not HTML tables.  This might be important for CSS styling.
+</p>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Class</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>.duxtable-table</td>
+        <td>
+            This is the outer-most &lt;div&gt; inside which everything else for the table is rendered.
+        </td>
+    </tr>
+    <tr>
+        <td>.duxtable-thead</td>
+        <td>
+            The entire header row, including column headers and group headers (if present).
+        </td>
+    </tr>
+    <tr>
+        <td>.duxtable-tbody</td>
+        <td>
+            The &lt;div&gt; that contains all the rows, including status messages (fetching or empty), footers,
+            and any extra rows for uniform table height.
+        </td>
+    </tr>
+    <tr>
+        <td>.duxtable-scroll</td>
+        <td>
+            This class is applied when pagination is turned off and the body scrolls with fixed headers.
+        </td>
+    </tr>
+    <tr>
+        <td>.duxtable-text-body</td>
+        <td>This class is applied to all table cells.</td>
+    </tr>
+    <tr>
+        <td>.duxtable-text-muted</td>
+        <td>This class is applied to status messages such as empty or fetching.</td>
+    </tr>
+    <tr>
+        <td>.duxtable-text-left</td>
+        <td>This class is applied to cells that are left-aligned.</td>
+    </tr>
+    <tr>
+        <td>.duxtable-text-right</td>
+        <td>This class is applied to cells that are right-aligned.</td>
+    </tr>
+    <tr>
+        <td>.duxtable-text-center</td>
+        <td>This class is applied to cells that are center-aligned.</td>
+    </tr>
+    <tr>
+        <td>.duxtable-invisible</td>
+        <td>This class is applied to table elements that should be rendered but kept invisible.</td>
+    </tr>
+    <tr>
+        <td>.duxtable-tr</td>
+        <td>
+            The class applied to the &lt;div&gt; containing the cells for a row.  This is also applied to empty
+            rows to maintain uniform table height.
+        </td>
+    </tr>
+    <tr>
+        <td>.duxtable-tr:hover</td>
+        <td>When the mouse is hovering over a table row.</td>
+    </tr>
+    </tbody>
+</table>

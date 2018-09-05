@@ -46,6 +46,16 @@ import { RowSorting } from './RowSorting';
 import RowSortingHtml from '../html/RowSorting.html';
 import RowSortingSource from '../source/RowSorting.txt';
 
+import { CellRendering } from './CellRendering';
+import CellRenderingHtml from '../html/CellRendering.html';
+import CellRenderingSource from '../source/CellRendering.txt';
+
+import { SelectedRowRendering } from './SelectedRowRendering';
+import SelectedRowRenderingHtml from '../html/SelectedRowRendering.html';
+import SelectedRowRenderingSource from '../source/SelectedRowRendering.txt';
+
+import CustomizingAppearanceHtml from '../html/CustomizingAppearance.html';
+
 const topics = [
     {
         topic: 'intro',
@@ -102,6 +112,22 @@ const topics = [
         component: RowSorting,
         html: RowSortingHtml,
         source: RowSortingSource
+    },
+    {
+        topic: 'cellrendering',
+        component: CellRendering,
+        html: CellRenderingHtml,
+        source: CellRenderingSource
+    },
+    {
+        topic: 'selectedrowrendering',
+        component: SelectedRowRendering,
+        html: SelectedRowRenderingHtml,
+        source: SelectedRowRenderingSource
+    },
+    {
+        topic: 'customizingappearance',
+        html: CustomizingAppearanceHtml
     }
 ];
 

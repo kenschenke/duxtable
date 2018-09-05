@@ -1,0 +1,18 @@
+<h2>Selected Row Rendering</h2>
+
+<p>
+    If your table needs to perform custom rendering of a cell or entire row when selected, a callback can be
+    supplied to provide a custom render.  One common way for web applications to allow users to interact with selected
+    elements is to render actions when the user selects the item.
+</p>
+
+<p>
+    The callback, supplied in the <code>selectedRenderCallback</code> property, is called for each cell in a selected
+    row and again for the entire row.  If it returns <strong>undefined</strong>, the default rendering for the cell
+    or row is used.  If it returns a string or a React component, that is used in place of the default rendering.
+    The item and a column number is passed to the callback.  When called to render the entire row, -1 is passed for
+    the column.  The return value in that case is rendered below the cells for the row.  The example illustrates how
+    this looks.
+</p>
+
+<h3>Example</h3>

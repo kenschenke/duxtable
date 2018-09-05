@@ -51,9 +51,9 @@ const NavBarUi = props => {
                             <a className="dropdown-item" href="#" onClick={e => {e.preventDefault(); props.topicClicked('selections')}}>Single and Multi Selections</a>
                             <a className="dropdown-item" href="#" onClick={e => {e.preventDefault(); props.topicClicked('columnsizing')}}>Column Sizing</a>
                             <a className="dropdown-item" href="#" onClick={e => {e.preventDefault(); props.topicClicked('rowsorting')}}>Row Sorting</a>
-                            <a className="dropdown-item" href="#" onClick={e => {e.preventDefault(); props.topicClicked('intro')}}>Custom Cell Rendering</a>
-                            <a className="dropdown-item" href="#" onClick={e => {e.preventDefault(); props.topicClicked('intro')}}>Selected Row Rendering</a>
-                            <a className="dropdown-item" href="#" onClick={e => {e.preventDefault(); props.topicClicked('intro')}}>Customizing Appearance</a>
+                            <a className="dropdown-item" href="#" onClick={e => {e.preventDefault(); props.topicClicked('cellrendering')}}>Custom Cell Rendering</a>
+                            <a className="dropdown-item" href="#" onClick={e => {e.preventDefault(); props.topicClicked('selectedrowrendering')}}>Selected Row Rendering</a>
+                            <a className="dropdown-item" href="#" onClick={e => {e.preventDefault(); props.topicClicked('customizingappearance')}}>Customizing Appearance</a>
                             <a className="dropdown-item" href="#" onClick={e => {e.preventDefault(); props.topicClicked('intro')}}>Custom Table Component Rendering</a>
                         </div>
                     </li>
