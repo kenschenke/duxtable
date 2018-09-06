@@ -3,7 +3,6 @@ node_js:
   - "lts/*"
 script: npm run website-dist
 local-dir: website/dist
-before_install: npm install -g npm@latest
 deploy:
   provider: pages
   fqdn: www.duxtable.com
