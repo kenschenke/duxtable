@@ -2,9 +2,9 @@ language: node_js
 node_js:
   - "lts/*"
 script: npm run website-dist
-local-dir: website/dist
 deploy:
   provider: pages
+  local-dir: website/dist
   fqdn: www.duxtable.com
   skip-cleanup: true
   github-token: $GITHUB_TOKEN
