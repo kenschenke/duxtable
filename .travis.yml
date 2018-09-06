@@ -1,7 +1,7 @@
 language: node_js
 script: npm run website-dist
 local-dir: website/dist
-before_install: if [[ `npm -v` != 5* ]]; then npm i -g npm@5; fi
+before_install: npm install -g npm@latest
 deploy:
   provider: pages
   fqdn: www.duxtable.com
