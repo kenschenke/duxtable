@@ -10,6 +10,9 @@
     "website-dist": "./node_modules/.bin/webpack --env=website-dist",
     "prepare": "npm run website-dist && babel ./src --out-dir ./lib --source-maps --presets env,stage-0,react --plugins babel-plugin-add-module-exports"
   },
+  "engines": {
+    "npm": ">5.0.0"
+  },
   "author": "Ken Schenke",
   "license": "MIT",
   "dependencies": {
