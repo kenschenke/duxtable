@@ -10,8 +10,154 @@
     search field.
 </p>
 
+<h3>Table Data</h3>
+
 <p>
-    The default CSS styles are designed for a "light mode" web site, but <code>&lt;DuxTable&gt;</code> can be
-    styled using CSS. The example shows a table in the default "light mode".  You can toggle on "dark mode" to see
-    how a table can be integrated into different designs, such as this site.
+    The data for the table rows is provided in the <code>data</code> property to the DuxTable component as an array
+    of JavaScript objects.  DuxTable only needs to know two things about each row in the array: the property that
+    uniquely identifies each row and how to render each cell.
 </p>
+
+<h4>The rowKey Property</h4>
+
+<p>
+    The <code>rowKey</code> property to DuxTable specifies the property in each row object that uniquely identifies the
+    row.  This is usually a corresponding database ID but can be anything.  Here is an example of how the table data
+    might be represented.
+</p>
+
+<pre>
+    const rows = [
+        {
+            Id: 346,
+            Name: 'John Doe',
+            Email: 'johndoe@example.com'
+        },
+        {
+            Id: 5645,
+            Name: 'Jane Doe',
+            Email: 'janedoe@example.com'
+        },
+        {
+            Id: 4564,
+            Name: 'Bill Smith',
+            Email: 'billsmith@example.com
+        }
+    ];
+
+    &lt;DuxTable rowKey="Id" data={rows} .../&gt;
+</pre>
+
+<h4>Cell Rendering</h4>
+
+<p>
+    DuxTable needs to know how to render the contents of each cell in a row.  This is handled by specifying the
+    table columns.
+</p>
+
+<h3>Table Columns</h3>
+
+<p>
+    The columns are defined in the <code>columns</code> property to DuxTable as an array of JavaScript objects.  The
+    objects have several optional properties and only one required property: <code>title</code>.  Here is a list of
+    the properties followed by an example of a columns array in use.
+</p>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Property</th>
+        <th width="150">Default Value</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>title</td>
+        <td>(required)</td>
+        <td>The title of the column shown in the column header</td>
+    </tr>
+    <tr>
+        <td>field</td>
+        <td>(none)</td>
+        <td>
+            This is the field in the row object to render in the cell.  In the above example, this could be
+            <code>Name</code> or <code>Email</code>.  If no custom rendering is necessary, this is the easiest way
+            to display cell contents.
+        </td>
+    </tr>
+    <tr>
+        <td>render</td>
+        <td>(none)</td>
+        <td>
+            This property specifies a function to call to render the cell contents.  The function is passed the object
+            for the row from the array provided in the <code>data</code> property.  It can return a string or a
+            React component.  See the topic on Custom Cell Rendering for more information.
+        </td>
+    </tr>
+    <tr>
+        <td>align</td>
+        <td>left</td>
+        <td>This specifies the text alignment in the cell: "left", "center", or "right".</td>
+    </tr>
+    <tr>
+        <td>width</td>
+        <td>(none)</td>
+        <td>
+            DuxTable automatically calculates column sizes based on the width of the table. This property specifies
+            the width in pixels of the column.  Columns without a specified width are sized equally.  The user is
+            allowed to resize columns by dragging the divider in the column header.
+        </td>
+    </tr>
+    <tr>
+        <td>sortable</td>
+        <td>true</td>
+        <td>
+            By setting this property to false, the user will not be allowed to click in the column header to sort the
+            table by this column.
+        </td>
+    </tr>
+    <tr>
+        <td>sortCallback</td>
+        <td>(none)</td>
+        <td>
+            If present, this function will be called when the user clicks on the column header to sort the table by
+            this column.  See the topic on Row Sorting for more information.
+        </td>
+    </tr>
+    <tr>
+        <td>footer</td>
+        <td>(none)</td>
+        <td>
+            This specifies a value or React component to render as a footer for this column.  See the topic on Footers
+            for more information.
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<h4>Example Columns Array</h4>
+
+<pre>
+    const cols = [
+        {
+            field: 'Name',
+            title: 'Name
+        },
+        {
+            field: 'Addr',
+            title: 'Address'
+        },
+        {
+            field: 'CitySt',
+            title: 'City, State',
+            width: 200
+        },
+        {
+            field: 'Orders',
+            title: 'Orders',
+            width: 100,
+            align: 'right
+        }
+    ];
+</pre>

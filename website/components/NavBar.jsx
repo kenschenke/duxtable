@@ -49,16 +49,17 @@ const NavBarUi = props => {
                             <a className="dropdown-item" href="#" onClick={e => {e.preventDefault(); props.topicClicked('headergroups')}}>Header Groups</a>
                             <a className="dropdown-item" href="#" onClick={e => {e.preventDefault(); props.topicClicked('footers')}}>Table Footers</a>
                             <a className="dropdown-item" href="#" onClick={e => {e.preventDefault(); props.topicClicked('selections')}}>Single and Multi Selections</a>
-                            <a className="dropdown-item" href="#" onClick={e => {e.preventDefault(); props.topicClicked('columnsizing')}}>Column Sizing</a>
                             <a className="dropdown-item" href="#" onClick={e => {e.preventDefault(); props.topicClicked('rowsorting')}}>Row Sorting</a>
                             <a className="dropdown-item" href="#" onClick={e => {e.preventDefault(); props.topicClicked('cellrendering')}}>Custom Cell Rendering</a>
                             <a className="dropdown-item" href="#" onClick={e => {e.preventDefault(); props.topicClicked('selectedrowrendering')}}>Selected Row Rendering</a>
                             <a className="dropdown-item" href="#" onClick={e => {e.preventDefault(); props.topicClicked('customizingappearance')}}>Customizing Appearance</a>
-                            <a className="dropdown-item" href="#" onClick={e => {e.preventDefault(); props.topicClicked('intro')}}>Custom Table Component Rendering</a>
                         </div>
                     </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="#" onClick={e => {e.preventDefault(); props.topicClicked('intro')}}>Examples</a>
+                    <li className="nav-item dropdown">
+                        <a className="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup={true} aria-expanded={false}>Custom Components</a>
+                        <div className="dropdown-menu">
+                            <a className="dropdown-item" href="#" onClick={e => {e.preventDefault(); props.topicClicked('customintro')}}>Introduction to Custom Components</a>
+                        </div>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link" href="#" onClick={e => {e.preventDefault(); props.topicClicked('intro')}}>Reference</a>

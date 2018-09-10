@@ -14,9 +14,7 @@ import IntroHtml from '../html/Intro.html';
 
 import GettingStartedHtml from '../html/GettingStarted.html';
 
-import { Basics } from './Basics';
 import BasicsHtml from '../html/Basics.html';
-import BasicsSource from '../source/Basics.txt';
 
 import { Paginated } from './Paginated';
 import PaginatedHtml from '../html/Paginated.html';
@@ -38,10 +36,6 @@ import { Selections } from './Selections';
 import SelectionsHtml from '../html/Selections.html';
 import SelectionsSource from '../source/Selections.txt';
 
-import { ColumnSizing } from './ColumnSizing';
-import ColumnSizingHtml from '../html/ColumnSizing.html';
-import ColumnSizingSource from '../source/ColumnSizing.txt';
-
 import { RowSorting } from './RowSorting';
 import RowSortingHtml from '../html/RowSorting.html';
 import RowSortingSource from '../source/RowSorting.txt';
@@ -54,7 +48,9 @@ import { SelectedRowRendering } from './SelectedRowRendering';
 import SelectedRowRenderingHtml from '../html/SelectedRowRendering.html';
 import SelectedRowRenderingSource from '../source/SelectedRowRendering.txt';
 
+import { CustomizingAppearance } from './CustomizingAppearance';
 import CustomizingAppearanceHtml from '../html/CustomizingAppearance.html';
+import CustomizingAppearanceSource from '../source/CustomizingAppearance.txt';
 
 const topics = [
     {
@@ -67,9 +63,7 @@ const topics = [
     },
     {
         topic: 'basics',
-        component: Basics,
-        html: BasicsHtml,
-        source: BasicsSource
+        html: BasicsHtml
     },
     {
         topic: 'paginated',
@@ -102,12 +96,6 @@ const topics = [
         source: SelectionsSource
     },
     {
-        topic: 'columnsizing',
-        component: ColumnSizing,
-        html: ColumnSizingHtml,
-        source: ColumnSizingSource
-    },
-    {
         topic: 'rowsorting',
         component: RowSorting,
         html: RowSortingHtml,
@@ -127,7 +115,9 @@ const topics = [
     },
     {
         topic: 'customizingappearance',
-        html: CustomizingAppearanceHtml
+        component: CustomizingAppearance,
+        html: CustomizingAppearanceHtml,
+        source: CustomizingAppearanceSource
     }
 ];
 
