@@ -1,0 +1,240 @@
+<h2>DuxTable Reference</h2>
+
+<p>
+    Below is a list of every <code>&lt;DuxTable&gt;</code> component property as well as a list of the
+    array properties for the <code>columns</code> property.
+</p>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Property</th>
+        <th width="150">Default Value</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>bodyHeight</td>
+        <td>(none)</td>
+        <td>
+            The body height in pixels.  This is used to enable scrolling with fixed column headers.  See the topic on
+            Fixed-Header Scrolling tables for more information.
+        </td>
+    </tr>
+    <tr>
+        <td>columns</td>
+        <td>(none)</td>
+        <td>This specifies the columns in the table.  See the Basics topic for more information.</td>
+    </tr>
+    <tr>
+        <td>data</td>
+        <td>(none)</td>
+        <td>The row data.  See the Basics topic for more information.</td>
+    </tr>
+    <tr>
+        <td>emptyMsg</td>
+        <td>(none)</td>
+        <td>Message that is displayed when there are no rows in the table</td>
+    </tr>
+    <tr>
+        <td>fetchingData</td>
+        <td>false</td>
+        <td>
+            Set this property to true when fetching data from a remote source or other data store that might take a
+            little while.  The message in <code>fetchingMsg</code> is shown while this is true.
+        </td>
+    </tr>
+    <tr>
+        <td>fetchingMsg</td>
+        <td>"Fetching Data"</td>
+        <td>This message is shown when <code>fetchingData</code> is true.</td>
+    </tr>
+    <tr>
+        <td>filterCallback</td>
+        <td>(none)</td>
+        <td>
+            This function is called when the user types something in the search box in the table.  It is passed the
+            search string and a single row object from the array supplied in the <code>data</code> property.  It should
+            return true if the row should be included in the filtered table rows.
+        </td>
+    </tr>
+    <tr>
+        <td>groupHeaders</td>
+        <td>(none)</td>
+        <td>Group headers.  See the topic on Header Groups for more information.</td>
+    </tr>
+    <tr>
+        <td>mouseEnterRow</td>
+        <td>(none)</td>
+        <td>
+            This function is called when the mouse enters a row.  It is passed the row object from the array supplied
+            in the <code>data</code> property.
+        </td>
+    </tr>
+    <tr>
+        <td>mouseLeaveRow</td>
+        <td>(none)</td>
+        <td>
+            This function is called when the mouse leaves a row.  It is passed the row object from the array supplied
+            in the <code>data</code> property.
+        </td>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>(required)</td>
+        <td>The name of the table, such as "addresses"</td>
+    </tr>
+    <tr>
+        <td>pageSize</td>
+        <td>10</td>
+        <td>The page size for pagination.  See the topic on Paginated tables for more information.</td>
+    </tr>
+    <tr>
+        <td>pagination</td>
+        <td>true</td>
+        <td>True if pagination is enabled.  See the topic on Paginated tables for more information.</td>
+    </tr>
+    <tr>
+        <td>rowKey</td>
+        <td>(none)</td>
+        <td>
+            The property in each row object that uniquely identifies each row.  See the Basics topic for more
+            information.
+        </td>
+    </tr>
+    <tr>
+        <td>rowSelectionChanged</td>
+        <td>(none)</td>
+        <td>
+            This function is called when the row selection changes.  It is called with an array of the keys of the
+            selected rows.
+        </td>
+    </tr>
+    <tr>
+        <td>searchFocus</td>
+        <td>false</td>
+        <td>If true, the search box is given keyboard focus when the DuxTable component is initialized.</td>
+    </tr>
+    <tr>
+        <td>selectedRenderCallback</td>
+        <td>(none)</td>
+        <td>
+            This function is called when a row is selected.  See the topic on Selected Row Rendering for more
+            information.
+        </td>
+    </tr>
+    <tr>
+        <td>selectionMode</td>
+        <td>"none"</td>
+        <td>The row selection mode.  One of "none", "single", or "multi".</td>
+    </tr>
+    <tr>
+        <td>showSearch</td>
+        <td>true</td>
+        <td>If true, a search box allows the user to filter table rows.</td>
+    </tr>
+    <tr>
+        <td>sortAscending</td>
+        <td>true</td>
+        <td>
+            If true, rows are sorted in ascending order by the <code>sortColumn</code>.  Note: this property is
+            only observed during table initialization.  If later changed, the new property value is ignored.
+        </td>
+    </tr>
+    <tr>
+        <td>sortColumn</td>
+        <td>-1</td>
+        <td>
+            The column to initially sort rows (starting at 0).  -1 means no sorting is initially done. Note: this
+            property is only observed during table initialization.  If later changed, the new property value is ignored.
+        </td>
+    </tr>
+    <tr>
+        <td>striped</td>
+        <td>false</td>
+        <td>If true, alternating rows are given a slightly darked shade of the background color.</td>
+    </tr>
+    </tbody>
+</table>
+
+<h3>Table Columns</h3>
+
+<p>
+    The columns are defined in the <code>columns</code> property to DuxTable as an array of JavaScript objects.  The
+    objects have several optional properties and only one required property: <code>title</code>.  Here is a list of
+    the properties followed by an example of a columns array in use.
+</p>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Property</th>
+        <th width="150">Default Value</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>title</td>
+        <td>(required)</td>
+        <td>The title of the column shown in the column header</td>
+    </tr>
+    <tr>
+        <td>field</td>
+        <td>(none)</td>
+        <td>
+            This is the field in the row object to render in the cell.  In the above example, this could be
+            <code>Name</code> or <code>Email</code>.  If no custom rendering is necessary, this is the easiest way
+            to display cell contents.
+        </td>
+    </tr>
+    <tr>
+        <td>render</td>
+        <td>(none)</td>
+        <td>
+            This property specifies a function to call to render the cell contents.  The function is passed the object
+            for the row from the array provided in the <code>data</code> property.  It can return a string or a
+            React component.  See the topic on Custom Cell Rendering for more information.
+        </td>
+    </tr>
+    <tr>
+        <td>align</td>
+        <td>left</td>
+        <td>This specifies the text alignment in the cell: "left", "center", or "right".</td>
+    </tr>
+    <tr>
+        <td>width</td>
+        <td>(none)</td>
+        <td>
+            DuxTable automatically calculates column sizes based on the width of the table. This property specifies
+            the width in pixels of the column.  Columns without a specified width are sized equally.  The user is
+            allowed to resize columns by dragging the divider in the column header.
+        </td>
+    </tr>
+    <tr>
+        <td>sortable</td>
+        <td>true</td>
+        <td>
+            By setting this property to false, the user will not be allowed to click in the column header to sort the
+            table by this column.
+        </td>
+    </tr>
+    <tr>
+        <td>sortCallback</td>
+        <td>(none)</td>
+        <td>
+            If present, this function will be called when the user clicks on the column header to sort the table by
+            this column.  See the topic on Row Sorting for more information.
+        </td>
+    </tr>
+    <tr>
+        <td>footer</td>
+        <td>(none)</td>
+        <td>
+            This specifies a value or React component to render as a footer for this column.  See the topic on Footers
+            for more information.
+        </td>
+    </tr>
+    </tbody>
+</table>

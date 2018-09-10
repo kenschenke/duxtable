@@ -55,14 +55,8 @@ const NavBarUi = props => {
                             <a className="dropdown-item" href="#" onClick={e => {e.preventDefault(); props.topicClicked('customizingappearance')}}>Customizing Appearance</a>
                         </div>
                     </li>
-                    <li className="nav-item dropdown">
-                        <a className="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup={true} aria-expanded={false}>Custom Components</a>
-                        <div className="dropdown-menu">
-                            <a className="dropdown-item" href="#" onClick={e => {e.preventDefault(); props.topicClicked('customintro')}}>Introduction to Custom Components</a>
-                        </div>
-                    </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="#" onClick={e => {e.preventDefault(); props.topicClicked('intro')}}>Reference</a>
+                        <a className="nav-link" href="#" onClick={e => {e.preventDefault(); props.topicClicked('reference')}}>Reference</a>
                     </li>
                 </ul>
             </div>

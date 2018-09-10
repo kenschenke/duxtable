@@ -52,6 +52,8 @@ import { CustomizingAppearance } from './CustomizingAppearance';
 import CustomizingAppearanceHtml from '../html/CustomizingAppearance.html';
 import CustomizingAppearanceSource from '../source/CustomizingAppearance.txt';
 
+import ReferenceHtml from '../html/Reference.html';
+
 const topics = [
     {
         topic: 'intro',
@@ -118,6 +120,10 @@ const topics = [
         component: CustomizingAppearance,
         html: CustomizingAppearanceHtml,
         source: CustomizingAppearanceSource
+    },
+    {
+        topic: 'reference',
+        html: ReferenceHtml
     }
 ];
 
