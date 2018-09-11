@@ -1,0 +1,11 @@
+/.idea
+/duxtable*.tgz
+/.babelrc
+.gitignore
+/src
+/node_modules
+__test__
+/testbed
+webpack*.js
+.travis.yml
+/address-helpers.jsx

@@ -4,3 +4,6 @@
 /source
 /index.jsx
 /topics.json
+/constants.js
+/initialState.json
+/store
