@@ -1,15 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { DuxTable } from '../../src/DuxTable';
+import { getSelectedRow, getSelectedRows } from '../../src/helpers';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { agate } from 'react-syntax-highlighter/styles/hljs';
 
 const mapProps = state => {
+    const single = getSelectedRow(state, 'singleselect');
     return {
-        singleState: state.duxtable.hasOwnProperty('singleselect') ?
-            JSON.stringify(state.duxtable.singleselect, null, 3) : '{}',
-        multiState: state.duxtable.hasOwnProperty('multiselect') ?
-            JSON.stringify(state.duxtable.multiselect, null, 3) : '{}'
+        singleSelection: single === undefined ? 'none' : single,
+        multiSelection: JSON.stringify(getSelectedRows(state, 'multiselect'), null, 3),
     };
 };
 
@@ -96,9 +96,9 @@ class SelectionsUi extends React.Component {
                         </div>
                     </div>
                     <div className="col">
-                        <h4>Redux State</h4>
+                        <h4>Selected Row</h4>
                         <SyntaxHighlighter language="JavaScript" style={agate}>
-                            {this.props.singleState}
+                            {this.props.singleSelection}
                         </SyntaxHighlighter>
                     </div>
                 </div>
@@ -117,9 +117,9 @@ class SelectionsUi extends React.Component {
                         </div>
                     </div>
                     <div className="col">
-                        <h4>Redux State</h4>
+                        <h4>Selected Rows</h4>
                         <SyntaxHighlighter language="JavaScript" style={agate}>
-                            {this.props.multiState}
+                            {this.props.multiSelection}
                         </SyntaxHighlighter>
                     </div>
                 </div>

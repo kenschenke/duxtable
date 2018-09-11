@@ -1,0 +1,39 @@
+<h2>Helper Functions</h2>
+
+<p>
+    A few helper functions are available which simplify extracting values from the Redux store for a table.
+</p>
+
+<h3>getSelectedRow</h3>
+
+<pre>
+    const row = getSelectedRow(state, tableName);
+</pre>
+
+<p>
+    This function is passed the current Redux application state and the name of the table and returns the Id from the
+    currently selected row or <strong>undefined</strong> if no row is currently selected.  See the topic on Single and
+    Multi Selections for an example of use.
+</p>
+
+<h3>getSelectedRows</h3>
+
+<pre>
+    const rows = getSelectedRows(state, tableName);
+</pre>
+
+<p>
+    This function is passed the current Redux application state and the name of the table and returns an array of the
+    Ids from the currently selected rows.  See the topic on Single and Multi Selections for an example of use.
+</p>
+
+<h3>getTableStoreValue</h3>
+
+<pre>
+    const value = getTableStoreValue(state, tableName, propertyName, defaultValue);
+</pre>
+
+<p>
+    This function is passed the current Redux application state, the name of the table, the name of the property, and
+    the default value if the property is not defined.
+</p>

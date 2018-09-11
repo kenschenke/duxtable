@@ -54,6 +54,8 @@ import CustomizingAppearanceSource from '../source/CustomizingAppearance.txt';
 
 import ReferenceHtml from '../html/Reference.html';
 
+import HelperFunctionsHtml from '../html/HelperFunctions.html';
+
 const topics = [
     {
         topic: 'intro',
@@ -124,6 +126,10 @@ const topics = [
     {
         topic: 'reference',
         html: ReferenceHtml
+    },
+    {
+        topic: 'helperfunctions',
+        html: HelperFunctionsHtml
     }
 ];
 

@@ -2,13 +2,13 @@ import React from 'react';
 import { DuxTable } from '../../src/DuxTable';
 import { connect } from 'react-redux';
 import { makeAddresses, makeStars } from '../../address-helpers';
-import { getTableStoreValue } from '../../src/helpers';
+import { getSelectedRows } from '../../src/helpers';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { agate } from 'react-syntax-highlighter/styles/hljs';
 
 const mapProps = state => {
     return {
-        selections: 'selectedRows = ' + JSON.stringify(getTableStoreValue(state, 'selectionmodes', 'selectedRows', []), null, 3)
+        selections: 'selectedRows = ' + JSON.stringify(getSelectedRows(state, 'selectionmodes'), null, 3)
     };
 };
 

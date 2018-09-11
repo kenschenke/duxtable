@@ -185,6 +185,15 @@ export const getTableRows = (filter, currentPage, sortColumn, sortAscending, pro
     };
 };
 
+export const getSelectedRow = (state, table) => {
+    const rows = getTableStoreValue(state, table, 'selectedRows', []);
+    return rows.length === 1 ? rows[0] : undefined;
+};
+
+export const getSelectedRows = (state, table) => {
+    return getTableStoreValue(state, table, 'selectedRows', []);
+};
+
 export const getTableStoreValue = (state, table, property, defaultValue) => {
     if (!state.duxtable.hasOwnProperty(table) ||
         !state.duxtable[table].hasOwnProperty(property)) {
