@@ -50,6 +50,7 @@ const NavBarUi = props => {
                             <a className="dropdown-item" href="#" onClick={e => {e.preventDefault(); props.topicClicked('footers')}}>Table Footers</a>
                             <a className="dropdown-item" href="#" onClick={e => {e.preventDefault(); props.topicClicked('selections')}}>Single and Multi Selections</a>
                             <a className="dropdown-item" href="#" onClick={e => {e.preventDefault(); props.topicClicked('rowsorting')}}>Row Sorting</a>
+                            <a className="dropdown-item" href="#" onClick={e => {e.preventDefault(); props.topicClicked('hiddencols')}}>Hidden Columns</a>
                             <a className="dropdown-item" href="#" onClick={e => {e.preventDefault(); props.topicClicked('cellrendering')}}>Custom Cell Rendering</a>
                             <a className="dropdown-item" href="#" onClick={e => {e.preventDefault(); props.topicClicked('selectedrowrendering')}}>Selected Row Rendering</a>
                             <a className="dropdown-item" href="#" onClick={e => {e.preventDefault(); props.topicClicked('customizingappearance')}}>Customizing Appearance</a>

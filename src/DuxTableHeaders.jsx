@@ -2,14 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { DuxTableHeaderCell } from './DuxTableHeaderCell';
 import { DuxTableGroupHeaderCell } from './DuxTableGroupHeaderCell';
+import { isLastColumn } from './helpers';
 
 export const DuxTableHeaders = props => {
     const headers = props.tableProps.columns.map((col, index) => {
+        if (props.tableProps.columnsHidden[index]) {
+            return <div key={col.title}></div>;
+        }
         return <DuxTableHeaderCell key={col.title}
                                    column={col}
                                    columnIndex={index}
                                    tableProps={props.tableProps}
-                                   isLastColumn={index + 1 === props.tableProps.columns.length}
+                                   isLastColumn={isLastColumn(props.tableProps.columns, index)}
         />;
     });
     const groupHeaders = props.tableProps.groupHeaders.map((hdr, index) => {

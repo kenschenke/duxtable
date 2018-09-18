@@ -56,6 +56,10 @@ import ReferenceHtml from '../html/Reference.html';
 
 import HelperFunctionsHtml from '../html/HelperFunctions.html';
 
+import { HiddenColumns } from './HiddenColumns';
+import HiddenColumnsHtml from '../html/HiddenColumns.html';
+import HiddenColumnsSource from '../source/HiddenColumns.txt';
+
 const topics = [
     {
         topic: 'intro',
@@ -130,6 +134,12 @@ const topics = [
     {
         topic: 'helperfunctions',
         html: HelperFunctionsHtml
+    },
+    {
+        topic: 'hiddencols',
+        component: HiddenColumns,
+        html: HiddenColumnsHtml,
+        source: HiddenColumnsSource
     }
 ];
 

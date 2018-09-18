@@ -12,10 +12,15 @@ const DuxTablePagerUi = props => {
         return null;
     }
 
+    let showRecordCount = true;
+    if (props.tableProps.tableBreak === 'xs'  || props.tableProps.tableBreak === 'sm') {
+        showRecordCount = false;
+    }
+
     return (
         <div className={'duxtable-pagination' + (props.tableProps.fetchingData ? ' duxtable-invisible' : '')}>
             <div className="duxtable-flex-row">
-                <div style={{flexBasis: 0, flexGrow: 1, maxWidth: '100%'}}>
+                <div className="duxtable-flex-col">
                     <button type="button"
                             className="duxtable-pagination-button"
                             disabled={props.currentPage < 2}
@@ -24,16 +29,16 @@ const DuxTablePagerUi = props => {
                         <FontAwesomeIcon icon={faBackward} style={{marginTop:-3}}/> Previous
                     </button>
                 </div>
-                <div className="duxtable-flex-col-8 duxtable-text-center">
+                <div className="duxtable-flex-col-grow duxtable-text-center">
                     Page {props.currentPage} of {props.totalPages}
-                    { props.numFilteredRows < props.numAllRows &&
+                    { props.numFilteredRows < props.numAllRows && showRecordCount &&
                     <span> ({formatNumber(props.numFilteredRows,0)} of {formatNumber(props.numAllRows,0)} records)</span>
                     }
-                    { props.numFilteredRows === props.numAllRows &&
+                    { props.numFilteredRows === props.numAllRows && showRecordCount &&
                     <span> ({formatNumber(props.numAllRows,0)} records)</span>
                     }
                 </div>
-                <div className="duxtable-flex-col-grow" style={{textAlign:'right'}}>
+                <div className="duxtable-flex-col">
                     <button type="button"
                             className="duxtable-pagination-button"
                             disabled={props.currentPage >= props.totalPages}

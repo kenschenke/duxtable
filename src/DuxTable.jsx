@@ -6,7 +6,8 @@ import { DuxTablePager } from './DuxTablePager';
 import { DuxTableSearch } from './DuxTableSearch';
 import { DuxTableHeaders } from './DuxTableHeaders';
 import { DuxTableBody } from './DuxTableBody';
-import { calculateColumnWidths, getElementPosition, getTableRows } from './helpers';
+import { calculateColumnWidths, getElementPosition, getHiddenColumns, getSizeBreakpoint, getTableRows } from './helpers';
+import _ from 'lodash';
 
 class DuxTableUi extends React.Component {
     constructor(props) {
@@ -35,6 +36,11 @@ class DuxTableUi extends React.Component {
         if (this._table !== null && this.props.tableH !== this._table.clientHeight) {
             this.props.setStoreData(this.props.name, {tableH: this._table.clientHeight});
         }
+
+        const newHidden = getHiddenColumns(this.props.columns);
+        if (!_.isEqual(newHidden, this.props.columnsHidden)) {
+            this.updateColumnWidths();
+        }
     }
 
     updateColumnWidths = () => {
@@ -43,10 +49,19 @@ class DuxTableUi extends React.Component {
         }
 
         const tableW = this._table.clientWidth;
-        this.props.setStoreData(this.props.name, {
+        const newState = {
             tableW: tableW,
             columnWidths: calculateColumnWidths(this.props.columns, tableW)
-        });
+        };
+        const tableBreak = getSizeBreakpoint();
+        if (tableBreak != this.props.tableBreak) {
+            newState.tableBreak = tableBreak;
+        }
+        const newHidden = getHiddenColumns(this.props.columns);
+        if (!_.isEqual(newHidden, this.props.columnsHidden)) {
+            newState.columnsHidden = newHidden;
+        }
+        this.props.setStoreData(this.props.name, newState);
     };
 
     render() {
@@ -106,7 +121,9 @@ DuxTableUi.propTypes = {
     sortAscendingFromStore: PropTypes.bool.isRequired,
     init: PropTypes.func.isRequired,
     setStoreData: PropTypes.func.isRequired,
-    selectedRows: PropTypes.array.isRequired
+    selectedRows: PropTypes.array.isRequired,
+    columnsHidden: PropTypes.array.isRequired,
+    tableBreak: PropTypes.string.isRequired
 };
 
 DuxTableUi.defaultProps = {

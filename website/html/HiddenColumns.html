@@ -1,0 +1,98 @@
+<h2>Hidden Columns</h2>
+
+<p>
+    Columns in the table can be hidden or shown based on the dynamic needs of the application or the width of the
+    browser window. This is handled with the <code>hidden</code> property in the columns array supplied to DuxTable.
+</p>
+
+<p>
+    The hidden property for a column can be a boolean value, a function that returns a boolean value, or an object
+    that specifies whether or not a column is hidden based on width of the browser window. The width breakpoints are
+    the same as defined in Bootstrap 4.  The breakpoints are listed below.  Following is a sample columns array.
+</p>
+
+<pre>
+    const isColumnHidden = () => {
+        return true;
+    }
+
+    const columns = [
+        {
+            title: 'Column 1',
+            field: 'col1value',
+            hidden: false
+        },
+        {
+            title: 'Hidden Column',
+            field: 'hiddenvalue',
+            hidden: isColumnHidden
+        }
+    ];
+</pre>
+
+<h3>Responsive Breakpoints</h3>
+
+<p>
+    A column can be dymanically shown or hidden based on the width of the browser window.  This is done by specifying
+    an object with boolean values for various widths.  The breakpoints are the same as those in Bootstrap 4.  These
+    breakpoints are:
+</p>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Breakpoint</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>xs</td>
+        <td>Extra small devices (portrait phones, less than 576px)</td>
+    </tr>
+    <tr>
+        <td>sm</td>
+        <td>Small devices (landscape phones, 576px and up)</td>
+    </tr>
+    <tr>
+        <td>md</td>
+        <td>Medium devices (tablets, 768px and up)</td>
+    </tr>
+    <tr>
+        <td>lg</td>
+        <td>Large devices (desktops, 992px and up)</td>
+    </tr>
+    <tr>
+        <td>xl</td>
+        <td>Extra large devices (large desktops, 1200px and up)</td>
+    </tr>
+    </tbody>
+</table>
+
+<p>
+    A breakpoint object might look something like this:
+</p>
+
+<pre>
+    const hidden = {
+        xs: true,
+        sm: true,
+        md: false
+    };
+</pre>
+
+<p>
+    Notice the hidden object is missing <code>lg</code> and <code>xl</code>. If a size breakpoint is missing from the
+    object, the breakpoint for the next smallest screen size is used. In this case, browsers with large or extra-large
+    windows would fall back to the medium breakpoint.  The column would be hidden on small and extra-small browser
+    windows. If the browser window is the <code>xs</code> size and that breakpoint is missing from the object, the
+    next lowest breakpoint is used instead.
+</p>
+
+<h3>Example</h3>
+
+<p>
+    In this example, the columns hide at browser widths more narrow than their breakpoint.  For example, the Column Xl
+    will be hidden when the browser window is smaller than xl.  Try resizing the browser window to see the columns
+    hide and show.
+</p>

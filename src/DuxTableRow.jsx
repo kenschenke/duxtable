@@ -6,6 +6,9 @@ import { DuxTableCell } from './DuxTableCell';
 
 const DuxTableRowUi = props => {
     const cells = props.tableProps.columns.map((col,colIndex) => {
+        if (props.tableProps.columnsHidden[colIndex]) {
+            return <div key={`${col.field}`}></div>;
+        }
         return <DuxTableCell key={`${col.field}`}
                              column={col}
                              columnIndex={colIndex}

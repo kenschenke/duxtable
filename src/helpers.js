@@ -6,6 +6,9 @@ export const calculateColumnWidths = (columns, tableW) => {
     let i, remainingCols = 0, remainingWidth = tableW;
     // Set the width for columns with a specified width
     for (i = 0; i < columns.length; i++) {
+        if (isColumnHidden(columns[i])) {
+            continue;
+        }
         if (columns[i].hasOwnProperty('width')) {
             widths[i] = columns[i].width;
             remainingWidth -= columns[i].width;
@@ -16,7 +19,7 @@ export const calculateColumnWidths = (columns, tableW) => {
     // For columns without a specified width, divide up the remaining space evenly
     if (remainingCols) {
         for (i = 0; i < columns.length; i++) {
-            if (!widths[i]) {
+            if (!widths[i] && !isColumnHidden(columns[i])) {
                 widths[i] = remainingWidth / remainingCols;
             }
         }
@@ -97,6 +100,15 @@ export const getElementPosition = elem => {
         top: elemOffset.top,
         left: elemOffset.left
     };
+};
+
+export const getHiddenColumns = columns => {
+    let hidden = [];
+    for (let i = 0; i < columns.length; i++) {
+        hidden.push(isColumnHidden(columns[i]));
+    }
+
+    return hidden;
 };
 
 export const getTableRows = (filter, currentPage, sortColumn, sortAscending, props) => {
@@ -194,6 +206,25 @@ export const getSelectedRows = (state, table) => {
     return getTableStoreValue(state, table, 'selectedRows', []);
 };
 
+export const getSizeBreakpoint = () => {
+    const w = window.innerWidth;
+    // Return the largest dimension
+    if (w > 1200) {
+        return 'xl';
+    }
+    if (w >= 992) {
+        return 'lg';
+    }
+    if (w >= 768) {
+        return 'md';
+    }
+    if (w >= 576) {
+        return 'sm';
+    }
+
+    return 'xs';
+};
+
 export const getTableStoreValue = (state, table, property, defaultValue) => {
     if (!state.duxtable.hasOwnProperty(table) ||
         !state.duxtable[table].hasOwnProperty(property)) {
@@ -203,8 +234,67 @@ export const getTableStoreValue = (state, table, property, defaultValue) => {
     return state.duxtable[table][property];
 };
 
+export const isColumnHidden = col => {
+    if (!col.hasOwnProperty('hidden')) {
+        return false;
+    } else if (typeof col.hidden === 'boolean') {
+        return col.hidden;
+    } else if (typeof col.hidden === 'function') {
+        return col.hidden();
+    } else if (typeof col.hidden === 'object') {
+        const w = window.innerWidth;
+        // Return the largest dimension
+        if (col.hidden.hasOwnProperty('xl') && w > 1200) {
+            return col.hidden.xl;
+        }
+        if (col.hidden.hasOwnProperty('lg') && w >= 992) {
+            return col.hidden.lg;
+        }
+        if (col.hidden.hasOwnProperty('md') && w >= 768) {
+            return col.hidden.md;
+        }
+        if (col.hidden.hasOwnProperty('sm') && w >= 576) {
+            return col.hidden.sm;
+        }
+        if (col.hidden.hasOwnProperty('xs')) {
+            return col.hidden.xs;
+        }
+        // At this point, the browser is "xs" (< 576 pixels) but
+        // no "xs" was specified. In this case, use the lowest
+        // dimension in order of sm, md, lg, xl.
+        if (col.hidden.hasOwnProperty('sm')) {
+            return col.hidden.sm;
+        }
+        if (col.hidden.hasOwnProperty('md')) {
+            return col.hidden.md;
+        }
+        if (col.hidden.hasOwnProperty('lg')) {
+            return col.hidden.lg;
+        }
+        if (col.hidden.hasOwnProperty('xl')) {
+            return col.hidden.xl;
+        }
+        return false;  // don't know how to handle this
+    } else {
+        return false;
+    }
+};
+
 export const isInsideRect = (x, y, left, top, width, height) => {
     return (x >= left && y >= top && x <= left+width && y <= top+height);
+};
+
+export const isLastColumn = (columns, index) => {
+    for (let i = index; i < columns.length; i++) {
+        if (i + 1 >= columns.length) {
+            return true;
+        }
+        if (!isColumnHidden(columns[i+1])) {
+            return false;
+        }
+    }
+
+    return true;
 };
 
 const toNumber = (value, precision) => {
