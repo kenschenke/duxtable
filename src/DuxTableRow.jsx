@@ -37,9 +37,11 @@ const DuxTableRowUi = props => {
                  onClick={() => props.rowClicked(props.item[props.tableProps.rowKey], props.tableProps)}
             >
                 <div className={rowClass}>{cells}</div>
+                { render &&
                 <div className="duxtable-tr duxtable-tr-selectable duxtable-tr-selected">
                     <div className="duxtable-td" style={{width: props.tableW}}>{render}</div>
                 </div>
+                }
             </div>
         );
     }
