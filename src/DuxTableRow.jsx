@@ -15,6 +15,7 @@ const DuxTableRowUi = props => {
                              columnWidth={props.columnWidths[colIndex]}
                              isRowSelected={props.isRowSelected}
                              item={props.item}
+                             selectedRenderCallback={props.tableProps.selectedRenderCallback}
         />;
     });
 
