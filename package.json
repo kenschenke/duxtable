@@ -1,6 +1,6 @@
 {
   "name": "duxtable",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "React.js table with sorting, searching, resizable columns",
   "main": "index.js",
   "scripts": {
