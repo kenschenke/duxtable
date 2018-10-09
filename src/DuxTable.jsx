@@ -64,6 +64,15 @@ class DuxTableUi extends React.Component {
         this.props.setStoreData(this.props.name, newState);
     };
 
+    updateTablePos = () => {
+        if (this._table !== null) {
+            const pos = getElementPosition(this._table);
+            this.props.setStoreData(this.props.name, {
+                tableT: pos.top
+            });
+        }
+    };
+
     render() {
         const tableRowData = getTableRows(this.props.filter, this.props.currentPage,
             this.props.sortColumnFromStore, this.props.sortAscendingFromStore, this.props);
@@ -72,7 +81,7 @@ class DuxTableUi extends React.Component {
             <div className="duxtable-container">
                 <DuxTableSearch tableProps={this.props}/>
                 <div ref={t => this._table=t} className="duxtable-table">
-                    <DuxTableHeaders tableProps={this.props}/>
+                    <DuxTableHeaders tableProps={this.props} resizeStart={this.updateTablePos}/>
                     <DuxTableBody tableRowData={tableRowData} tableProps={this.props}/>
                 </div>
                 { this.props.pagination &&

@@ -14,6 +14,7 @@ export const DuxTableHeaders = props => {
                                    columnIndex={index}
                                    tableProps={props.tableProps}
                                    isLastColumn={isLastColumn(props.tableProps.columns, index)}
+                                   resizeStart={props.resizeStart}
         />;
     });
     const groupHeaders = props.tableProps.groupHeaders.map((hdr, index) => {
@@ -33,4 +34,5 @@ export const DuxTableHeaders = props => {
 
 DuxTableHeaders.propTypes = {
     tableProps: PropTypes.object.isRequired,
+    resizeStart: PropTypes.func.isRequired
 };

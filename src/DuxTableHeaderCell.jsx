@@ -48,6 +48,7 @@ class DuxTableHeaderCellUi extends React.Component {
             if (isInsideRect(pos.x, pos.y, resizerLeft, resizerTop, resizerRect.width, resizerRect.height)) {
                 this.dragX = event.screenX;
                 this.setState({resizing: true, resizeX: pos.x});
+                this.props.resizeStart();
                 this.props.setResizingColumns(this.props.tableProps.name, true);
             }
         }
@@ -128,6 +129,7 @@ DuxTableHeaderCellUi.propTypes = {
     column: PropTypes.object.isRequired,
     columnIndex: PropTypes.number.isRequired,
     isLastColumn: PropTypes.bool.isRequired,
+    resizeStart: PropTypes.func.isRequired,
 
     // Provided by Redux map
     columnWidths: PropTypes.array.isRequired,
