@@ -1,5 +1,5 @@
 import React from 'react';
-import { DuxTable } from '../../src/DuxTable';
+import DuxTable from '../../src/DuxTable';
 
 export class Footers extends React.Component {
     constructor(props) {

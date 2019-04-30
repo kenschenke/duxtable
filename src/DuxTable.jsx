@@ -151,4 +151,4 @@ DuxTableUi.defaultProps = {
     groupHeaders: []
 };
 
-export const DuxTable = connect(mapDuxTableProps, mapDuxTableDispatch)(DuxTableUi);
+export default connect(mapDuxTableProps, mapDuxTableDispatch)(DuxTableUi);

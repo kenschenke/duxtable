@@ -1,5 +1,5 @@
 import React from 'react';
-import { DuxTable } from '../../src/DuxTable';
+import DuxTable from '../../src/DuxTable';
 import {makeAddresses} from "../../address-helpers";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import {agate} from "react-syntax-highlighter/styles/hljs";

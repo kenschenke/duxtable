@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { DuxTable } from '../../src/DuxTable';
+import DuxTable from '../../src/DuxTable';
 import { getSelectedRow, getSelectedRows } from '../../src/helpers';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { agate } from 'react-syntax-highlighter/styles/hljs';
